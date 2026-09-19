@@ -1,0 +1,18 @@
+{
+  "name": "PDF Concurso EDU — Mapa de Estudos",
+  "short_name": "PDF Estudos",
+  "description": "Mapas mentais, flashcards, questões e progresso do PDF Concurso EDU.",
+  "start_url": "/mapas/",
+  "scope": "/mapas/",
+  "display": "standalone",
+  "background_color": "#fbf7ef",
+  "theme_color": "#7b1118",
+  "icons": [
+    {
+      "src": "/assets/logo-pdf-concurso.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
