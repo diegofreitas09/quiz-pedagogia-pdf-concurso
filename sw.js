@@ -1,4 +1,4 @@
-const CACHE="pdf-concurso-edu-unificado-v1";
+const CACHE="pdf-concurso-edu-unificado-v2";
 const ASSETS=[
   "/","/index.html","/styles.css","/brand.css","/app.js","/manifest.webmanifest",
   "/assets/logo-pdf-concurso.png",
@@ -11,4 +11,17 @@ self.addEventListener("fetch",e=>{
   e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{
     const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return resp;
   }).catch(()=>caches.match("/index.html"))));
+});
+self.addEventListener("notificationclick",event=>{
+  event.notification.close();
+  const url=event.notification.data?.url||"/mapas/";
+  event.waitUntil(clients.matchAll({type:"window",includeUncontrolled:true}).then(list=>{
+    for(const client of list){
+      if("focus" in client){
+        if("navigate" in client)client.navigate(url);
+        return client.focus();
+      }
+    }
+    return clients.openWindow?clients.openWindow(url):undefined;
+  }));
 });
