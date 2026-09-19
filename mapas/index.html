@@ -62,6 +62,32 @@
       <button id="reviewDueBtn" class="primary">Revisar agora</button>
     </section>
 
+    <section id="studyAlert" class="panel study-alert">
+      <div class="study-alert-head">
+        <span class="alert-icon">⏰</span>
+        <div>
+          <p class="eyebrow">ALERTA DE ESTUDO</p>
+          <h2>Seu próximo foco</h2>
+          <p id="studyWeakText">Vou usar seu domínio nos módulos para indicar o assunto que mais precisa de revisão.</p>
+        </div>
+      </div>
+      <div class="study-countdown"><span>Próximo lembrete</span><strong id="studyCountdown">Não programado</strong></div>
+      <div class="study-reminder-actions">
+        <label>Me lembrar em
+          <select id="studyDelay">
+            <option value="30">30 minutos</option>
+            <option value="60" selected>1 hora</option>
+            <option value="180">3 horas</option>
+            <option value="1440">Amanhã</option>
+          </select>
+        </label>
+        <button id="scheduleStudyReminder" class="primary">Programar lembrete</button>
+        <button id="enableStudyNotifications" class="secondary">Ativar notificações</button>
+        <button id="studyWeakNow" class="secondary">Estudar ponto fraco agora</button>
+      </div>
+      <small id="studyReminderStatus" class="study-status">Ao instalar o app, um temporizador inicial de 1 hora será criado automaticamente.</small>
+    </section>
+
     <section>
       <div class="section-head">
         <div><p class="eyebrow">TRILHAS</p><h2>Escolha um módulo</h2></div>
