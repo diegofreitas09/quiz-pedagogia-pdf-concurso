@@ -17,3 +17,24 @@
   #reset{font-size:.82rem;padding:10px}
   .hub-grid{grid-template-columns:1fr}
 }
+.study-alert{border:2px solid #f0c95d;background:linear-gradient(135deg,#fffdf4,#fff8df)}
+.study-alert.due{border-color:var(--red);background:#fff1ee}
+.study-alert-head{display:flex;gap:14px;align-items:flex-start}
+.study-alert-head h2{margin:3px 0 6px}
+.study-alert-head p{margin:0;color:var(--muted)}
+.alert-icon{font-size:2rem;line-height:1}
+.study-countdown{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0;padding:14px 16px;background:#fff;border:1px solid #eadbce;border-radius:14px}
+.study-countdown span{color:var(--muted)}
+.study-countdown strong{color:var(--red);font-size:1.25rem}
+.study-reminder-actions{display:flex;align-items:end;gap:10px;flex-wrap:wrap}
+.study-reminder-actions label{font-weight:800;min-width:170px}
+.study-reminder-actions select{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid #dbcac5;border-radius:12px;background:#fff;font-size:16px}
+.study-reminder-actions .primary,.study-reminder-actions .ghost{min-height:46px}
+.study-status{display:block;margin-top:12px;color:var(--muted);line-height:1.4}
+@media(max-width:750px){
+  .study-alert-head{align-items:flex-start}
+  .study-countdown{align-items:flex-start;flex-direction:column}
+  .study-reminder-actions{display:grid;grid-template-columns:1fr}
+  .study-reminder-actions>*{width:100%}
+  .reminder-permission{display:block!important}
+}
