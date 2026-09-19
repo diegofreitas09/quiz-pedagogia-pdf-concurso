@@ -1701,3 +1701,25 @@ function draw(){let x=run[i];$('#progressText').textContent=`Questão ${i+1} de 
 function answer(n){let x=run[i];document.querySelectorAll('.option').forEach((b,k)=>{b.disabled=true;if(k===x.a)b.classList.add('correct');if(k===n&&n!==x.a)b.classList.add('wrong')});if(n===x.a)hits++;answers.push({x,n});$('#feedback').innerHTML=`<strong>${n===x.a?'Acertou!':'Atenção:'}</strong> ${x.e}`;$('#feedback').classList.remove('hidden');$('#next').classList.remove('hidden')}
 $('#next').onclick=()=>{if(++i<run.length)draw();else finish()};function finish(){let mins=Math.max(1,Math.round((Date.now()-started)/60000));state.answered+=run.length;state.correct+=hits;state.minutes+=mins;state.streak=Math.max(1,state.streak);save();let pct=Math.round(hits/run.length*100);$('#score').textContent=pct+'%';$('#summary').innerHTML=`<p>Você acertou <strong>${hits} de ${run.length}</strong> questões em ${mins} minuto(s).</p><p>${pct>=80?'Excelente desempenho. Avance para um simulado maior.':pct>=60?'Boa base. Revise os comentários antes do próximo simulado.':'Priorize a revisão dos assuntos com erro e tente novamente.'}</p>`;show('result')}
 $('#report').onclick=()=>{let w=open('','_blank');w.document.write(`<title>Relatório PDF Concurso EDU</title><style>body{font:16px Arial;max-width:800px;margin:40px auto}h1{color:#b40d16}.q{border-bottom:1px solid #ddd;padding:15px 0}</style><h1>Relatório comentado — PDF Concurso EDU</h1><p>Resultado: ${hits}/${run.length}</p>${answers.map((a,j)=>`<div class=q><b>${j+1}. ${a.x.q}</b><p>Sua resposta: ${a.x.o[a.n]} — ${a.n===a.x.a?'CORRETA':'INCORRETA'}</p><p>Comentário: ${a.x.e}</p></div>`).join('')}<script>print()<\/script>`);w.document.close()};renderHome();setInterval(()=>{if(!$('#quiz').classList.contains('hidden')){let s=Math.floor((Date.now()-started)/1000);$('#timer').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}},1000);
+
+/* UNIFIED_PWA_HOOKS */
+(()=>{
+  const hubQuiz=document.querySelector("#hubQuiz");
+  if(hubQuiz) hubQuiz.addEventListener("click",()=>document.querySelector("#start")?.click());
+  let deferredInstall=null;
+  const installBtn=document.querySelector("#installApp");
+  window.addEventListener("beforeinstallprompt",e=>{
+    e.preventDefault(); deferredInstall=e;
+    installBtn?.classList.remove("hidden");
+  });
+  installBtn?.addEventListener("click",async()=>{
+    if(!deferredInstall)return;
+    deferredInstall.prompt();
+    await deferredInstall.userChoice;
+    deferredInstall=null;
+    installBtn.classList.add("hidden");
+  });
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>{});
+  }
+})();
