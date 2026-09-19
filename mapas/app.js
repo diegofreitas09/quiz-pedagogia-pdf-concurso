@@ -369,7 +369,7 @@
   renderMindmap();
   renderCard();
   renderProgress();
-  if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+  if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>{});
   const allowed=["home","read","maps","cards","quiz","progress"];
   go(allowed.includes(state.lastView)?state.lastView:"home");
 })();
