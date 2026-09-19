@@ -1,6 +1,31 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#b40d16"><title>PDF Concurso EDU — Plataforma de Estudos</title><meta name="description" content="Plataforma completa PDF Concurso EDU: simulados, leitura guiada, mapas mentais, flashcards, questões e acompanhamento de progresso."><link rel="icon" type="image/png" href="assets/logo-pdf-concurso.png"><link rel="apple-touch-icon" href="assets/logo-pdf-concurso.png"><link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="brand.css"></head><body>
 <header><div class="brand"><img class="brand-logo" src="assets/logo-pdf-concurso.png" alt="PDF Concurso EDU"><div><strong>PDF CONCURSO EDU</strong><small>Plataforma de Estudos</small></div></div><div class="header-actions"><a class="header-link" href="/mapas/">Central de Estudos</a><button id="installApp" class="ghost hidden">Instalar app</button><button id="reset" class="ghost">Zerar progresso</button></div></header>
-<main><section id="home"><div class="hero"><div class="hero-copy"><p class="eyebrow">SUA PLATAFORMA COMPLETA DE ESTUDOS</p><h1>Estude, revise e resolva questões em um só lugar.</h1><p>Simulados, leitura guiada, mapas mentais, flashcards, revisão espaçada e indicadores para transformar estudo em resultado.</p><div class="hero-actions"><button id="start" class="primary">Iniciar simulado</button><a href="/mapas/" class="primary alt">Abrir Central de Estudos</a></div></div><img class="hero-logo" src="assets/logo-pdf-concurso.png" alt="PDF Concurso EDU"></div><div class="stats"><article><b id="answered">0</b><span>questões respondidas</span></article><article><b id="accuracy">0%</b><span>de acertos</span></article><article><b id="minutes">0</b><span>minutos estudados</span></article><article><b id="streak">0</b><span>dias de sequência</span></article></div><section class="panel"><div><h2>Meta diária</h2><p><span id="goalDone">0</span> de <span id="goalTotal">10</span> questões</p></div><div class="bar"><i id="goalBar"></i></div></section><h2>Módulos do aplicativo</h2>
+<main><section id="home"><div class="hero"><div class="hero-copy"><p class="eyebrow">SUA PLATAFORMA COMPLETA DE ESTUDOS</p><h1>Estude, revise e resolva questões em um só lugar.</h1><p>Simulados, leitura guiada, mapas mentais, flashcards, revisão espaçada e indicadores para transformar estudo em resultado.</p><div class="hero-actions"><button id="start" class="primary">Iniciar simulado</button><a href="/mapas/" class="primary alt">Abrir Central de Estudos</a></div></div><img class="hero-logo" src="assets/logo-pdf-concurso.png" alt="PDF Concurso EDU"></div><div class="stats"><article><b id="answered">0</b><span>questões respondidas</span></article><article><b id="accuracy">0%</b><span>de acertos</span></article><article><b id="minutes">0</b><span>minutos estudados</span></article><article><b id="streak">0</b><span>dias de sequência</span></article></div><section class="panel"><div><h2>Meta diária</h2><p><span id="goalDone">0</span> de <span id="goalTotal">10</span> questões</p></div><div class="bar"><i id="goalBar"></i></div></section>
+<section id="studyAlert" class="panel study-alert">
+  <div class="study-alert-head">
+    <span class="alert-icon">⏰</span>
+    <div>
+      <p class="eyebrow">ALERTA DE ESTUDO</p>
+      <h2>Atenção ao seu ponto fraco</h2>
+      <p id="studyWeakText">Faça algumas questões para eu identificar o assunto que precisa de mais revisão.</p>
+    </div>
+  </div>
+  <div class="study-countdown"><span>Próximo lembrete</span><strong id="studyCountdown">Não programado</strong></div>
+  <div class="study-reminder-actions">
+    <label>Me lembrar em
+      <select id="studyDelay">
+        <option value="30">30 minutos</option>
+        <option value="60" selected>1 hora</option>
+        <option value="180">3 horas</option>
+        <option value="1440">Amanhã</option>
+      </select>
+    </label>
+    <button id="scheduleStudyReminder" class="primary">Programar lembrete</button>
+    <button id="enableStudyNotifications" class="ghost reminder-permission">Ativar notificações</button>
+    <a class="primary alt" href="/mapas/">Estudar agora</a>
+  </div>
+  <small id="studyReminderStatus" class="study-status">Ao instalar o app, um temporizador inicial de 1 hora será criado automaticamente.</small>
+</section><h2>Módulos do aplicativo</h2>
 <div class="hub-grid">
   <article class="hub-card"><span class="hub-icon">📝</span><div><h3>Simulados</h3><p>Questões de Pedagogia com correção comentada e diagnóstico.</p></div><button id="hubQuiz" class="primary">Fazer simulado</button></article>
   <article class="hub-card"><span class="hub-icon">🧠</span><div><h3>Central de Estudos</h3><p>Leitura, mapas mentais, flashcards, questões e progresso.</p></div><a href="/mapas/" class="primary alt">Entrar</a></article>
