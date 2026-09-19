@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "PDF Concurso EDU — Plataforma de Estudos",
+  "short_name": "PDF Concurso EDU",
+  "description": "Simulados, mapas mentais, flashcards, leitura, questões e progresso em um único aplicativo.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff9ed",
+  "theme_color": "#b40d16",
+  "icons": [
+    {
+      "src": "/assets/logo-pdf-concurso.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
