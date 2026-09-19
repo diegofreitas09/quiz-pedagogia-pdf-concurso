@@ -11,13 +11,13 @@
     const cards=CARDS.filter(c=>c.module===number);
     return {number,title:cards[0].category,icon:ICONS[number],cards};
   });
-  const defaults={mastery:{},quiz:{answered:0,correct:0},lastModule:1,lastCard:1,lastView:"home"};
+  const defaults={mastery:{},quiz:{answered:0,correct:0},quizByModule:{},lastModule:1,lastCard:1,lastView:"home"};
   const el=id=>document.getElementById(id);
   const clone=o=>JSON.parse(JSON.stringify(o));
   let state;
   try{
     const raw=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
-    state={...defaults,...raw,mastery:{...(raw.mastery||{})},quiz:{...defaults.quiz,...(raw.quiz||{})}};
+    state={...defaults,...raw,mastery:{...(raw.mastery||{})},quiz:{...defaults.quiz,...(raw.quiz||{})},quizByModule:{...(raw.quizByModule||{})}};
   }catch{state=clone(defaults)}
   let activeModule=state.lastModule||1;
   let cardPool=[...CARDS];
@@ -61,6 +61,7 @@
     state.mastery[id]={level,reviews,lastReview:Date.now(),nextReview:Date.now()+delay};
     state.lastCard=id;
     save();
+    window.dispatchEvent(new Event("pdf-progress-updated"));
     renderHome();
     renderProgress();
   }
@@ -245,7 +246,12 @@
       state.quiz.correct=(state.quiz.correct||0)+1;
     }
     state.quiz.answered=(state.quiz.answered||0)+1;
+    const modStat=state.quizByModule[c.module]||{answered:0,correct:0};
+    modStat.answered++;
+    if(chosen.correct)modStat.correct++;
+    state.quizByModule[c.module]=modStat;
     save();
+    window.dispatchEvent(new Event("pdf-progress-updated"));
     el("quizFeedback").classList.remove("hidden");
     el("quizFeedback").innerHTML=`<strong>${chosen.correct?"✓ Acertou":"✕ Revise este ponto"}</strong><span>${c.answer}</span><div class="trap" style="margin-top:10px"><strong>⚠ Pegadinha:</strong> ${c.trap}</div>`;
     el("quizScore").textContent=`${s.correct} acerto${s.correct===1?"":"s"}`;
@@ -358,6 +364,129 @@
       el("installBtn").classList.add("hidden");
     };
   }
+
+
+  /* SMART_STUDY_REMINDER */
+  const REMINDER_KEY="pdfStudyReminderV1";
+  const AUTO_KEY="pdfStudyReminderAutoV1";
+  let reminderTimer=null;
+
+  function readReminder(){
+    try{return JSON.parse(localStorage.getItem(REMINDER_KEY)||"{}")}catch{return {}}
+  }
+  function writeReminder(r){localStorage.setItem(REMINDER_KEY,JSON.stringify(r))}
+  function weakModule(){
+    const ranked=MODULES.map(m=>{
+      const reviewed=m.cards.filter(c=>mastery(c.id)).length;
+      const master=modulePercent(m.number);
+      const q=state.quizByModule?.[m.number]||{answered:0,correct:0};
+      const qPct=q.answered?Math.round(q.correct/q.answered*100):null;
+      const touched=reviewed>0||q.answered>0;
+      const score=qPct===null?master:(reviewed?Math.round((master+qPct)/2):qPct);
+      return {...m,reviewed,qAnswered:q.answered||0,score,touched};
+    });
+    const touched=ranked.filter(x=>x.touched);
+    return (touched.length?touched:ranked.filter(x=>x.number===(state.lastModule||1)))
+      .sort((a,b)=>a.score-b.score)[0]||ranked[0];
+  }
+  function formatRemaining(ms){
+    if(ms<=0)return "AGORA";
+    const total=Math.ceil(ms/60000);
+    if(total<60)return total+" min";
+    const h=Math.floor(total/60),m=total%60;
+    if(h<24)return h+"h"+(m?(" "+m+"min"):"");
+    const d=Math.floor(h/24),rh=h%24;
+    return d+" dia"+(d>1?"s":"")+(rh?(" "+rh+"h"):"");
+  }
+  async function systemNotify(topic){
+    if(!("Notification" in window)||Notification.permission!=="granted")return;
+    try{
+      const reg=await navigator.serviceWorker.ready;
+      await reg.showNotification("📚 Hora de estudar!",{
+        body:"Seu foco agora: "+topic+". Faça uma revisão curta antes de avançar.",
+        icon:"/assets/logo-pdf-concurso.png",
+        badge:"/assets/logo-pdf-concurso.png",
+        tag:"pdf-study-reminder",
+        renotify:true,
+        data:{url:"/mapas/"}
+      });
+    }catch{}
+  }
+  function renderStudyReminder(){
+    const weak=weakModule();
+    const weakText=el("studyWeakText");
+    if(weakText)weakText.textContent="Seu ponto mais fraco agora é “"+weak.title+"” ("+weak.score+"% de domínio estimado).";
+    const r=readReminder();
+    const count=el("studyCountdown"),status=el("studyReminderStatus");
+    if(!count)return;
+    if(!r.dueAt){
+      count.textContent="Não programado";
+      if(status)status.textContent="Escolha um intervalo e programe sua próxima revisão.";
+      return;
+    }
+    const left=r.dueAt-Date.now();
+    count.textContent=formatRemaining(left);
+    if(status)status.textContent=left>0
+      ? "Lembrete programado para "+new Date(r.dueAt).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})+"."
+      : "Está na hora de revisar "+(r.topic||weak.title)+".";
+    if(left<=0&&r.firedFor!==r.dueAt){
+      r.firedFor=r.dueAt;writeReminder(r);
+      el("studyAlert")?.classList.add("due");
+      systemNotify(r.topic||weak.title);
+    }else if(left>0){
+      el("studyAlert")?.classList.remove("due");
+    }
+  }
+  function scheduleStudyReminder(minutes,automatic=false){
+    const weak=weakModule();
+    writeReminder({dueAt:Date.now()+minutes*60000,topic:weak.title,module:weak.number,createdAt:Date.now(),automatic,firedFor:null});
+    renderStudyReminder();
+  }
+  async function enableStudyNotifications(){
+    const btn=el("enableStudyNotifications"),status=el("studyReminderStatus");
+    if(!("Notification" in window)){
+      if(status)status.textContent="Este navegador não oferece notificações do sistema.";
+      return;
+    }
+    const permission=await Notification.requestPermission();
+    if(permission==="granted"){
+      if(btn)btn.textContent="Notificações ativas ✓";
+      if(status)status.textContent="Notificações ativadas. O temporizador também continua visível no app.";
+    }else if(status){
+      status.textContent="Notificações não autorizadas. O temporizador continuará visível quando você abrir o app.";
+    }
+  }
+  function openWeakModule(){
+    const weak=weakModule();
+    setModule(weak.number);
+    go("read");
+  }
+
+  el("scheduleStudyReminder")?.addEventListener("click",()=>scheduleStudyReminder(Number(el("studyDelay")?.value)||60,false));
+  el("enableStudyNotifications")?.addEventListener("click",enableStudyNotifications);
+  el("studyWeakNow")?.addEventListener("click",openWeakModule);
+
+  window.addEventListener("appinstalled",()=>{
+    localStorage.setItem(AUTO_KEY,"1");
+    if(!readReminder().dueAt)scheduleStudyReminder(60,true);
+    renderStudyReminder();
+  });
+  const standalone=window.matchMedia?.("(display-mode: standalone)")?.matches||window.navigator.standalone===true;
+  if(standalone&&!localStorage.getItem(AUTO_KEY)){
+    localStorage.setItem(AUTO_KEY,"1");
+    if(!readReminder().dueAt)scheduleStudyReminder(60,true);
+  }
+  window.addEventListener("pdf-progress-updated",()=>{
+    const r=readReminder(),weak=weakModule();
+    if(r.dueAt){r.topic=weak.title;r.module=weak.number;writeReminder(r)}
+    renderStudyReminder();
+  });
+  if("Notification" in window&&Notification.permission==="granted"){
+    const btn=el("enableStudyNotifications");if(btn)btn.textContent="Notificações ativas ✓";
+  }
+  renderStudyReminder();
+  reminderTimer=setInterval(renderStudyReminder,30000);
+  window.addEventListener("pagehide",()=>reminderTimer&&clearInterval(reminderTimer),{once:true});
 
   fillCardSelect();
   fillQuizModules();
