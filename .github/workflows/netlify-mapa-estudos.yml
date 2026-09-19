@@ -1,0 +1,35 @@
+name: Deploy Mapa de Estudos to Netlify
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "mapas/**"
+      - "assets/**"
+      - "netlify.toml"
+      - ".github/workflows/netlify-mapa-estudos.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NETLIFY_SITE_ID: 203f5c3b-496c-4668-a110-f5bbc9866c91
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate study data
+        run: |
+          node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('mapas/cards.json','utf8')); if(c.length!==80) throw new Error('Expected 80 cards'); if(c.some(x=>!x.question||!x.answer||!x.trap||!x.category)) throw new Error('Incomplete card'); console.log('80/80 cards OK');"
+          node --check mapas/app.js
+
+      - name: Deploy production to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: npx --yes netlify-cli@latest deploy --dir=. --prod --site="$NETLIFY_SITE_ID"
