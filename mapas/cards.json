@@ -1,0 +1,642 @@
+[
+  {
+    "id": 1,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "Qual é a ideia central de Paulo Freire sobre o processo educativo?",
+    "answer": "A educação deve ser dialógica, problematizadora e ligada à realidade do educando, favorecendo consciência crítica e participação.",
+    "trap": "educação dialógica não significa ausência de conteúdo ou de mediação docente."
+  },
+  {
+    "id": 2,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "O que caracteriza a pedagogia histórico-crítica de Dermeval Saviani?",
+    "answer": "Defende a apropriação crítica do conhecimento sistematizado como mediação para compreender e transformar a prática social.",
+    "trap": "não rejeita os conteúdos escolares; valoriza sua função social e formativa."
+  },
+  {
+    "id": 3,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "Qual contribuição de José Carlos Libâneo aparece muito em provas?",
+    "answer": "A didática articula objetivos, conteúdos, métodos, condições de ensino e avaliação, considerando a realidade social da escola.",
+    "trap": "didática não é apenas um conjunto de técnicas neutras."
+  },
+  {
+    "id": 4,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "Como Cipriano Luckesi diferencia avaliação e exame?",
+    "answer": "A avaliação acompanha o processo e subsidia decisões para melhorar a aprendizagem; o exame tende a classificar e selecionar resultados.",
+    "trap": "avaliar não se resume a atribuir nota."
+  },
+  {
+    "id": 5,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "O que Philippe Perrenoud destaca na formação por competências?",
+    "answer": "Competência é mobilizar conhecimentos, habilidades e outros recursos para agir adequadamente diante de situações complexas.",
+    "trap": "competência não é simples memorização de conteúdos."
+  },
+  {
+    "id": 6,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "Qual princípio é associado a Maria Montessori?",
+    "answer": "Autonomia progressiva da criança em ambiente preparado, com materiais organizados, atividade intencional e respeito ao ritmo de aprendizagem.",
+    "trap": "autonomia não significa ausência de organização ou de intervenção pedagógica."
+  },
+  {
+    "id": 7,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "Qual foi a principal contribuição de Emilia Ferreiro para a alfabetização?",
+    "answer": "Com a psicogênese da língua escrita, mostrou que a criança formula hipóteses sobre o sistema de escrita durante sua apropriação.",
+    "trap": "a criança não é vista como receptora passiva de letras prontas."
+  },
+  {
+    "id": 8,
+    "module": 1,
+    "category": "AUTORES E PENSADORES",
+    "question": "Como Magda Soares relaciona alfabetização e letramento?",
+    "answer": "São processos distintos e indissociáveis: alfabetizar envolve apropriar-se do sistema de escrita; letrar envolve participar de práticas sociais de leitura e escrita.",
+    "trap": "letramento não substitui a alfabetização."
+  },
+  {
+    "id": 9,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "Em Piaget, o que são assimilação e acomodação?",
+    "answer": "Assimilação incorpora uma experiência aos esquemas existentes; acomodação modifica os esquemas diante de novas exigências.",
+    "trap": "os dois processos atuam de forma complementar na adaptação cognitiva."
+  },
+  {
+    "id": 10,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "Quais são os quatro estágios cognitivos clássicos de Piaget?",
+    "answer": "Sensório-motor, pré-operatório, operatório concreto e operatório formal.",
+    "trap": "as idades são referências aproximadas; o foco é a organização qualitativa do pensamento."
+  },
+  {
+    "id": 11,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "O que significa Zona de Desenvolvimento Proximal em Vygotsky?",
+    "answer": "É a distância entre o que o estudante realiza sozinho e o que consegue realizar com ajuda de alguém mais experiente.",
+    "trap": "ZDP não é conteúdo fixo nem uma etapa biológica universal."
+  },
+  {
+    "id": 12,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "Qual é o papel da mediação em Vygotsky?",
+    "answer": "A aprendizagem é mediada social e culturalmente por pessoas, linguagem, signos e instrumentos.",
+    "trap": "interação social não elimina a atividade do próprio sujeito."
+  },
+  {
+    "id": 13,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "Como Wallon compreende o desenvolvimento humano?",
+    "answer": "Como processo integrado e dinâmico que articula afetividade, movimento, cognição e relações sociais.",
+    "trap": "Wallon não reduz o desenvolvimento apenas à afetividade."
+  },
+  {
+    "id": 14,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "O que é aprendizagem significativa em Ausubel?",
+    "answer": "O novo conhecimento relaciona-se, de modo não arbitrário, a conhecimentos relevantes já presentes na estrutura cognitiva do aprendiz.",
+    "trap": "não é simplesmente aprender algo “interessante”; depende de relações com conhecimentos prévios."
+  },
+  {
+    "id": 15,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "Qual é a ideia básica do behaviorismo aplicada à aprendizagem?",
+    "answer": "O comportamento pode ser analisado em relação a estímulos, respostas e consequências, como reforços, que influenciam sua ocorrência.",
+    "trap": "behaviorismo não é sinônimo de punição."
+  },
+  {
+    "id": 16,
+    "module": 2,
+    "category": "PSICOLOGIA E APRENDIZAGEM",
+    "question": "Construtivismo e sociointeracionismo são sinônimos?",
+    "answer": "Não. Ambos valorizam a atividade do sujeito, mas o sociointeracionismo enfatiza especialmente a mediação social, cultural e linguística.",
+    "trap": "provas costumam confundir a ênfase no sujeito com a ênfase na interação social."
+  },
+  {
+    "id": 17,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "Segundo a Constituição, de quem é o dever da educação?",
+    "answer": "A educação é direito de todos e dever do Estado e da família, promovida e incentivada com a colaboração da sociedade.",
+    "trap": "a responsabilidade não é exclusiva da escola ou do Estado."
+  },
+  {
+    "id": 18,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "Quais finalidades gerais da educação aparecem na Constituição e na LDB?",
+    "answer": "Pleno desenvolvimento da pessoa/educando, preparo para o exercício da cidadania e qualificação para o trabalho.",
+    "trap": "as três finalidades aparecem de forma articulada."
+  },
+  {
+    "id": 19,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "Quais são as etapas da Educação Básica na LDB?",
+    "answer": "Educação Infantil, Ensino Fundamental e Ensino Médio.",
+    "trap": "EJA e Educação Especial são modalidades, não etapas da Educação Básica."
+  },
+  {
+    "id": 20,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "Qual faixa etária corresponde à educação básica obrigatória e gratuita?",
+    "answer": "Dos 4 aos 17 anos de idade, assegurada também oferta gratuita a quem não teve acesso na idade própria.",
+    "trap": "creche integra a Educação Infantil, mas a obrigatoriedade começa aos 4 anos."
+  },
+  {
+    "id": 21,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "O que é gestão democrática do ensino público?",
+    "answer": "É princípio educacional que envolve participação, transparência, diálogo e formas colegiadas de construção e acompanhamento das decisões.",
+    "trap": "gestão democrática não significa ausência de liderança ou que todas as decisões sejam tomadas por unanimidade."
+  },
+  {
+    "id": 22,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "A quem se destina a Educação de Jovens e Adultos - EJA?",
+    "answer": "A quem não teve acesso ou continuidade de estudos nos ensinos fundamental e médio na idade própria, integrando a perspectiva de aprendizagem ao longo da vida.",
+    "trap": "EJA não é favor nem simples “atalho” escolar."
+  },
+  {
+    "id": 23,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "Que direitos educacionais o ECA assegura ao estudante?",
+    "answer": "Entre outros: igualdade de acesso e permanência, respeito pelos educadores, contestação de critérios avaliativos e participação estudantil.",
+    "trap": "o direito de contestar critérios avaliativos não significa escolher livremente a própria nota."
+  },
+  {
+    "id": 24,
+    "module": 3,
+    "category": "LDB E LEGISLAÇÃO",
+    "question": "Qual é a função geral do Fundeb?",
+    "answer": "Financiar a manutenção e o desenvolvimento da educação básica pública e valorizar os profissionais da educação, conforme as regras legais de distribuição e aplicação.",
+    "trap": "Fundeb não é recurso livre para qualquer despesa pública."
+  },
+  {
+    "id": 25,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "O que é a BNCC?",
+    "answer": "Documento normativo que define aprendizagens essenciais a serem desenvolvidas ao longo das etapas e modalidades da Educação Básica.",
+    "trap": "BNCC não é um currículo pronto e idêntico para todas as escolas."
+  },
+  {
+    "id": 26,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "Quantas competências gerais orientam a Educação Básica na BNCC?",
+    "answer": "Dez competências gerais, que articulam conhecimentos, habilidades, atitudes e valores para a formação integral.",
+    "trap": "competência é mais ampla do que uma habilidade isolada."
+  },
+  {
+    "id": 27,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "Qual a diferença entre competência e habilidade?",
+    "answer": "Competência é mobilização integrada de recursos para agir; habilidade é um saber fazer mais específico relacionado a ações e aprendizagens.",
+    "trap": "os termos não são sinônimos."
+  },
+  {
+    "id": 28,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "Quais são os seis direitos de aprendizagem e desenvolvimento da Educação Infantil na BNCC?",
+    "answer": "Conviver, brincar, participar, explorar, expressar e conhecer-se.",
+    "trap": "não confunda direitos de aprendizagem com campos de experiências."
+  },
+  {
+    "id": 29,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "Quais são os cinco campos de experiências da Educação Infantil?",
+    "answer": "O eu, o outro e o nós; Corpo, gestos e movimentos; Traços, sons, cores e formas; Escuta, fala, pensamento e imaginação; Espaços, tempos, quantidades, relações e transformações.",
+    "trap": "os campos não funcionam como disciplinas tradicionais isoladas."
+  },
+  {
+    "id": 30,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "O que é currículo formal, real e oculto?",
+    "answer": "Formal: o prescrito nos documentos; real: o que efetivamente acontece; oculto: valores, normas e mensagens implícitas aprendidas nas relações e rotinas.",
+    "trap": "currículo oculto existe mesmo sem estar escrito."
+  },
+  {
+    "id": 31,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "Qual a diferença entre interdisciplinaridade e transdisciplinaridade?",
+    "answer": "Interdisciplinaridade articula áreas preservando suas identidades; transdisciplinaridade busca ultrapassar fronteiras disciplinares para integrar saberes de modo mais amplo.",
+    "trap": "multidisciplinaridade pode apenas colocar disciplinas lado a lado, sem integração real."
+  },
+  {
+    "id": 32,
+    "module": 4,
+    "category": "BNCC E CURRÍCULO",
+    "question": "Qual é a relação entre BNCC e currículo?",
+    "answer": "A BNCC define aprendizagens essenciais e orienta a elaboração dos currículos, que incorporam também contextos, escolhas e especificidades locais.",
+    "trap": "cumprir a BNCC não elimina a autonomia curricular dos sistemas e escolas dentro dos marcos legais."
+  },
+  {
+    "id": 33,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "O que é planejamento pedagógico?",
+    "answer": "Processo intencional de definir objetivos, conteúdos, estratégias, recursos, tempos e avaliação, com possibilidade de ajustes durante a prática.",
+    "trap": "planejamento não é documento rígido e imutável."
+  },
+  {
+    "id": 34,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "Qual a diferença entre plano de aula, sequência didática e projeto didático?",
+    "answer": "Plano de aula organiza uma aula/período curto; sequência encadeia atividades para uma aprendizagem específica; projeto articula ações mais amplas em torno de problema, produto ou finalidade.",
+    "trap": "duração, amplitude e foco ajudam a diferenciar os três."
+  },
+  {
+    "id": 35,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "O que caracteriza a tendência pedagógica tradicional?",
+    "answer": "Centralidade do professor e dos conteúdos, exposição e transmissão sistematizada, disciplina e forte presença de memorização e exercícios.",
+    "trap": "“tradicional” não é sinônimo automático de qualquer aula expositiva."
+  },
+  {
+    "id": 36,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "O que caracteriza a tendência tecnicista?",
+    "answer": "Ênfase em eficiência, objetivos operacionais, controle do processo, técnicas e organização racional do ensino.",
+    "trap": "o professor tende a atuar como executor/organizador do processo, não como centro absoluto do saber."
+  },
+  {
+    "id": 37,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "Qual a marca da pedagogia libertadora?",
+    "answer": "Diálogo, problematização da realidade, participação dos educandos e consciência crítica, fortemente associada a Paulo Freire.",
+    "trap": "não se reduz a conversa livre sem intencionalidade educativa."
+  },
+  {
+    "id": 38,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "O que caracteriza a tendência crítico-social dos conteúdos?",
+    "answer": "Defende a apropriação de conteúdos escolares socialmente relevantes articulados à realidade e à formação crítica do estudante.",
+    "trap": "valorizar conteúdos não a torna uma pedagogia tradicional."
+  },
+  {
+    "id": 39,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "O que são metodologias ativas?",
+    "answer": "Estratégias que ampliam a participação e a autoria do estudante em situações de investigação, resolução de problemas, projetos, colaboração e tomada de decisão.",
+    "trap": "metodologia ativa não significa professor ausente."
+  },
+  {
+    "id": 40,
+    "module": 5,
+    "category": "DIDÁTICA E TENDÊNCIAS",
+    "question": "O que é sala de aula invertida?",
+    "answer": "Estratégia em que parte do contato inicial com o conteúdo ocorre antes do encontro e o tempo de aula é usado para interação, aplicação, discussão e aprofundamento.",
+    "trap": "não é simplesmente “mandar vídeo para casa”."
+  },
+  {
+    "id": 41,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "Qual é a função da avaliação diagnóstica?",
+    "answer": "Identificar conhecimentos prévios, necessidades e dificuldades para orientar o planejamento e as intervenções.",
+    "trap": "diagnóstico não serve apenas para classificar a turma no início."
+  },
+  {
+    "id": 42,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "O que caracteriza a avaliação formativa?",
+    "answer": "Acompanha a aprendizagem durante o processo, produz feedback e orienta ajustes no ensino e no estudo.",
+    "trap": "avaliação formativa pode usar nota; o que a define é sua função pedagógica."
+  },
+  {
+    "id": 43,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "O que caracteriza a avaliação somativa?",
+    "answer": "Verifica resultados ao final de uma etapa, unidade ou ciclo e pode subsidiar certificação, registro ou decisões de progressão.",
+    "trap": "não precisa ocorrer exclusivamente por prova escrita."
+  },
+  {
+    "id": 44,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "O que significa avaliação mediadora em Jussara Hoffmann?",
+    "answer": "Avaliar é acompanhar, interpretar e intervir no processo, usando evidências para promover avanços e novas oportunidades de aprendizagem.",
+    "trap": "mediação não é facilitar a nota nem eliminar critérios."
+  },
+  {
+    "id": 45,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "Qual o papel do erro em uma avaliação formativa?",
+    "answer": "O erro pode funcionar como evidência do raciocínio e das hipóteses do estudante, orientando novas intervenções pedagógicas.",
+    "trap": "reconhecer o valor diagnóstico do erro não significa considerar toda resposta correta."
+  },
+  {
+    "id": 46,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "Instrumento de avaliação e avaliação são a mesma coisa?",
+    "answer": "Não. Prova, portfólio, observação, rubrica ou trabalho são instrumentos; avaliação é o processo de interpretar evidências e tomar decisões pedagógicas.",
+    "trap": "trocar o instrumento não garante, por si só, uma avaliação formativa."
+  },
+  {
+    "id": 47,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "Qual é o sentido pedagógico da recuperação da aprendizagem?",
+    "answer": "Oferecer novas oportunidades, intervenções e estratégias para superar dificuldades e consolidar aprendizagens essenciais.",
+    "trap": "recuperação não deve ser apenas repetição da mesma atividade que não funcionou."
+  },
+  {
+    "id": 48,
+    "module": 6,
+    "category": "AVALIAÇÃO DA APRENDIZAGEM",
+    "question": "Qual deve ser a função do conselho de classe em perspectiva pedagógica?",
+    "answer": "Analisar coletivamente o processo de ensino e aprendizagem, identificar necessidades e planejar encaminhamentos para favorecer o desenvolvimento dos estudantes.",
+    "trap": "não deve se reduzir a reunião para somar notas ou rotular alunos."
+  },
+  {
+    "id": 49,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "Educação Especial e Educação Inclusiva são sinônimos?",
+    "answer": "Não. Educação Especial é modalidade com serviços e recursos específicos; Educação Inclusiva é princípio de participação e aprendizagem de todos na escola comum.",
+    "trap": "Educação Especial não significa segregação obrigatória."
+  },
+  {
+    "id": 50,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "Qual é a função do Atendimento Educacional Especializado - AEE?",
+    "answer": "Identificar, elaborar e organizar recursos pedagógicos e de acessibilidade para eliminar barreiras e complementar/suplementar a formação do público-alvo da Educação Especial.",
+    "trap": "AEE não substitui a escolarização na classe comum."
+  },
+  {
+    "id": 51,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "O que significa Desenho Universal para a Aprendizagem - DUA?",
+    "answer": "Planejar desde o início múltiplas formas de engajamento, representação e ação/expressão para ampliar o acesso e a participação de diferentes estudantes.",
+    "trap": "DUA não é adaptação exclusiva para um único diagnóstico."
+  },
+  {
+    "id": 52,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "O que é acessibilidade na educação?",
+    "answer": "Conjunto de condições que remove barreiras físicas, comunicacionais, informacionais, pedagógicas, tecnológicas e atitudinais à participação e aprendizagem.",
+    "trap": "acessibilidade não se limita a rampas."
+  },
+  {
+    "id": 53,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "O que é o Projeto Político-Pedagógico - PPP?",
+    "answer": "Documento e processo coletivo que expressa identidade, princípios, objetivos, prioridades e organização do trabalho pedagógico da escola.",
+    "trap": "PPP não deve ser produzido apenas pela direção para cumprir burocracia."
+  },
+  {
+    "id": 54,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "Qual o papel do conselho escolar?",
+    "answer": "Atuar como espaço colegiado de participação e acompanhamento de questões pedagógicas, administrativas e de gestão, conforme as normas do sistema de ensino.",
+    "trap": "conselho escolar não substitui a direção nem o PPP."
+  },
+  {
+    "id": 55,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "Qual o papel da coordenação pedagógica?",
+    "answer": "Articular o trabalho pedagógico, apoiar o planejamento docente, promover formação, acompanhar aprendizagens e favorecer reflexão coletiva sobre a prática.",
+    "trap": "coordenação não é apenas fiscalização de professores."
+  },
+  {
+    "id": 56,
+    "module": 7,
+    "category": "INCLUSÃO E GESTÃO ESCOLAR",
+    "question": "O que caracteriza liderança democrática na escola?",
+    "answer": "Organizar processos de decisão, comunicação, participação e corresponsabilidade, garantindo clareza de papéis e foco no direito de aprender.",
+    "trap": "participação democrática não significa ausência de critérios, normas e responsabilidades."
+  },
+  {
+    "id": 57,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "Qual a diferença básica entre alfabetização e letramento?",
+    "answer": "Alfabetização envolve apropriação do sistema de escrita alfabética; letramento envolve usos sociais da leitura e da escrita em diferentes contextos.",
+    "trap": "são distintos, mas devem ser trabalhados de forma articulada."
+  },
+  {
+    "id": 58,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "O que é consciência fonológica?",
+    "answer": "Capacidade de perceber e manipular unidades sonoras da fala, como palavras, sílabas, rimas e fonemas.",
+    "trap": "consciência fonológica é mais ampla do que consciência fonêmica."
+  },
+  {
+    "id": 59,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "O que significa compreender o sistema de escrita alfabética?",
+    "answer": "Entender que a escrita representa segmentos sonoros da fala por meio de relações convencionais entre grafemas e fonemas, com regras próprias.",
+    "trap": "aprender o sistema não é memorizar palavras inteiras sem análise."
+  },
+  {
+    "id": 60,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "Quais níveis são tradicionalmente associados à psicogênese da escrita?",
+    "answer": "Pré-silábico, silábico, silábico-alfabético e alfabético, compreendidos como hipóteses construídas pela criança sobre a escrita.",
+    "trap": "os níveis não são rótulos fixos nem substituem o ensino intencional."
+  },
+  {
+    "id": 61,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "Por que trabalhar com gêneros textuais na alfabetização?",
+    "answer": "Porque permite ler e produzir textos com finalidades, interlocutores e contextos reais, articulando apropriação do sistema e práticas sociais de linguagem.",
+    "trap": "gênero textual não é apenas “tipo de texto” decorado por características."
+  },
+  {
+    "id": 62,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "Qual é a importância da leitura pelo professor para crianças em alfabetização?",
+    "answer": "Amplia repertório, compreensão, vocabulário e contato com diferentes textos, mesmo antes de a criança ler convencionalmente de forma autônoma.",
+    "trap": "ouvir leitura não substitui oportunidades de a criança refletir sobre o sistema de escrita."
+  },
+  {
+    "id": 63,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "Produção de texto pode ocorrer antes da escrita alfabética consolidada?",
+    "answer": "Sim. A criança pode produzir textos por ditado ao professor, escrita compartilhada e outras situações que desenvolvem autoria, linguagem e conhecimento dos gêneros.",
+    "trap": "produção textual não deve esperar a ortografia perfeita."
+  },
+  {
+    "id": 64,
+    "module": 8,
+    "category": "ALFABETIZAÇÃO E LETRAMENTO",
+    "question": "O que significa alfabetizar em contexto de letramento?",
+    "answer": "Ensinar explicitamente o sistema de escrita enquanto se promovem práticas reais e significativas de leitura e produção de textos.",
+    "trap": "contextualizar não elimina a necessidade de ensinar relações entre sons e letras."
+  },
+  {
+    "id": 65,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "Educação integral e escola em tempo integral são a mesma coisa?",
+    "answer": "Não. Educação integral refere-se à formação do estudante em múltiplas dimensões; tempo integral refere-se principalmente à ampliação da jornada escolar.",
+    "trap": "mais horas, sozinhas, não garantem formação integral."
+  },
+  {
+    "id": 66,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "O que significa equidade em educação?",
+    "answer": "Garantir apoios e condições diferenciadas conforme necessidades e barreiras, buscando oportunidades reais de acesso, participação e aprendizagem.",
+    "trap": "equidade não é tratar todos exatamente da mesma forma."
+  },
+  {
+    "id": 67,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "Qual princípio orienta a Educação do Campo?",
+    "answer": "Adequar currículo, organização, tempos e metodologias às realidades, identidades, culturas, territórios e formas de vida das populações do campo.",
+    "trap": "não é versão “menor” ou simples extensão do modelo urbano."
+  },
+  {
+    "id": 68,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "O que as Leis 10.639/2003 e 11.645/2008 reforçam no currículo escolar?",
+    "answer": "A obrigatoriedade do ensino de História e Cultura Afro-Brasileira e Africana, ampliada para incluir História e Cultura dos povos indígenas.",
+    "trap": "o tema não deve ficar restrito a datas comemorativas."
+  },
+  {
+    "id": 69,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "O que caracteriza educação em direitos humanos?",
+    "answer": "Formação baseada em dignidade, igualdade, respeito à diversidade, participação, justiça e cultura democrática, articulada às práticas escolares.",
+    "trap": "não é conteúdo isolado de uma única disciplina."
+  },
+  {
+    "id": 70,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "Como a cultura digital deve aparecer na educação?",
+    "answer": "Com uso crítico, ético, criativo e responsável das tecnologias para comunicar, pesquisar, produzir, colaborar e resolver problemas.",
+    "trap": "cultura digital não é apenas saber operar dispositivos."
+  },
+  {
+    "id": 71,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "O que é gamificação educacional?",
+    "answer": "Uso intencional de elementos e dinâmicas de jogos - como desafios, progressão e feedback - em contextos de aprendizagem.",
+    "trap": "gamificação não é simplesmente jogar em sala."
+  },
+  {
+    "id": 72,
+    "module": 9,
+    "category": "POLÍTICAS E TEMAS ATUAIS",
+    "question": "Qual a diferença entre aprendizagem baseada em projetos e em problemas?",
+    "answer": "Projetos organizam um percurso investigativo que costuma culminar em produto/produção; problemas partem de uma situação-problema para investigar, formular hipóteses e buscar soluções.",
+    "trap": "ambas exigem intencionalidade, pesquisa e mediação; não são “trabalho em grupo” qualquer."
+  },
+  {
+    "id": 73,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "O que é metodologia científica?",
+    "answer": "Conjunto organizado de princípios e procedimentos que orienta a investigação, justificando como o conhecimento será produzido, analisado e comunicado.",
+    "trap": "metodologia não se resume a formatação do trabalho."
+  },
+  {
+    "id": 74,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "O que é problema de pesquisa?",
+    "answer": "Pergunta clara, delimitada e investigável que orienta o estudo e ajuda a definir objetivos e método.",
+    "trap": "tema e problema não são a mesma coisa."
+  },
+  {
+    "id": 75,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "O que é hipótese de pesquisa?",
+    "answer": "Resposta provisória ou explicação a ser examinada pela investigação quando compatível com a natureza do estudo.",
+    "trap": "nem toda pesquisa exige hipótese formal."
+  },
+  {
+    "id": 76,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "Qual a diferença entre objetivo geral e objetivos específicos?",
+    "answer": "O geral expressa a finalidade ampla do estudo; os específicos desdobram etapas ou ações necessárias para alcançá-la.",
+    "trap": "objetivo descreve o que se pretende alcançar, não o resultado já obtido."
+  },
+  {
+    "id": 77,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "Qual a diferença entre método e técnica de pesquisa?",
+    "answer": "Método é o caminho lógico mais amplo da investigação; técnica é um procedimento/instrumento específico, como entrevista, questionário ou observação.",
+    "trap": "entrevista e questionário são técnicas, não métodos científicos completos."
+  },
+  {
+    "id": 78,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "Qual a diferença entre pesquisa qualitativa e quantitativa?",
+    "answer": "A qualitativa enfatiza significados, processos e contextos; a quantitativa trabalha com mensuração, variáveis e análise numérica. Podem ser combinadas.",
+    "trap": "uma abordagem não é “mais científica” por definição."
+  },
+  {
+    "id": 79,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "Qual a diferença entre citação direta e indireta?",
+    "answer": "Direta reproduz literalmente as palavras da fonte; indireta apresenta a ideia com redação própria, mantendo a indicação de autoria conforme a norma aplicável.",
+    "trap": "paráfrase sem referência também pode configurar plágio."
+  },
+  {
+    "id": 80,
+    "module": 10,
+    "category": "METODOLOGIA E ABNT",
+    "question": "Para que servem as referências em um trabalho acadêmico?",
+    "answer": "Identificam as fontes efetivamente utilizadas/citadas e permitem rastrear a origem das informações, seguindo o padrão adotado pela instituição e normas vigentes.",
+    "trap": "referência não é o mesmo que citação no corpo do texto."
+  }
+]
