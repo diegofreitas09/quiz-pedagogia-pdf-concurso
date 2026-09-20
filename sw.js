@@ -1,8 +1,8 @@
-const CACHE="pdf-concurso-edu-unificado-v6";
+const CACHE="pdf-concurso-edu-unificado-v7";
 const ASSETS=[
   "/","/index.html","/styles.css","/brand.css","/app.js","/manifest.webmanifest",
-  "/assets/logo-pdf-concurso.png","/banks/catalog.js","/banks/portugues.js","/banks/rlm.js","/banks/pedagogia.js",
-  "/mapas/","/mapas/index.html","/mapas/styles.css","/mapas/planner.css","/mapas/theory.js","/mapas/app.js","/mapas/planner.js","/mapas/cards.json"
+  "/assets/logo-pdf-concurso.png","/banks/theory.js","/banks/catalog.js","/banks/portugues.js","/banks/rlm.js","/banks/pedagogia.js",
+  "/mapas/","/mapas/index.html","/mapas/styles.css","/mapas/planner.css","/mapas/app.js","/mapas/planner.js","/mapas/cards.json"
 ];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));self.skipWaiting()});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
