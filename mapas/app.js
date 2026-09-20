@@ -244,6 +244,14 @@
     if(chosen.correct){
       s.correct++;
       state.quiz.correct=(state.quiz.correct||0)+1;
+    }else{
+      try{
+        const list=JSON.parse(localStorage.getItem("pdfErrorNotebookV1")||"[]");
+        const key="map-"+c.id;
+        if(!list.some(e=>e.key===key&&!e.resolved))list.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),key,subject:c.category,question:c.question,correct:c.answer,explanation:c.trap,createdAt:Date.now(),resolved:false});
+        localStorage.setItem("pdfErrorNotebookV1",JSON.stringify(list));
+        window.dispatchEvent(new Event("pdf-errors-updated"));
+      }catch{}
     }
     state.quiz.answered=(state.quiz.answered||0)+1;
     const modStat=state.quizByModule[c.module]||{answered:0,correct:0};
