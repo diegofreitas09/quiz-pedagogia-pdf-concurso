@@ -34,6 +34,7 @@ jobs:
         run: |
           node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('mapas/cards.json','utf8')); if(c.length!==80) throw new Error('Expected 80 cards'); if(c.some(x=>!x.question||!x.answer||!x.trap||!x.category)) throw new Error('Incomplete card'); console.log('80/80 cards OK');"
           node --check mapas/app.js
+          node --check mapas/planner.js
           node --check app.js
           node --check sw.js
 
