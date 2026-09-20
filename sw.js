@@ -1,4 +1,4 @@
-const CACHE="pdf-concurso-edu-unificado-v8";
+const CACHE="pdf-concurso-edu-unificado-v9";
 const ASSETS=[
   "/","/index.html","/styles.css","/brand.css","/app.js","/manifest.webmanifest",
   "/assets/logo-pdf-concurso.png","/banks/theory.js","/banks/catalog.js","/banks/portugues.js","/banks/rlm.js","/banks/pedagogia.js",
