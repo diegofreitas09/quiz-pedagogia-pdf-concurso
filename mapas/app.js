@@ -141,6 +141,8 @@
     const pedagogical=readingDiscipline==="Conhecimentos Pedagógicos";
     el("readSelector")?.classList.toggle("hidden",!pedagogical);
     el("readTopicLabel")?.classList.toggle("hidden",pedagogical);
+    el("readMapBtn")?.classList.toggle("hidden",!pedagogical);
+    el("readCardsBtn")?.classList.toggle("hidden",!pedagogical);
     if(!pedagogical){
       const list=theoryTopics(readingDiscipline);
       ts.innerHTML=list.map(x=>`<option value="${x.title}">${x.title}</option>`).join("");
@@ -183,7 +185,7 @@
       <details open><summary>📌 Pontos-chave</summary><div class="reading-body"><ul class="theory-list">${item.keyPoints.map(x=>`<li>${x}</li>`).join("")}</ul></div></details>
       <details><summary>⚠ Pegadinhas de prova</summary><div class="reading-body"><ul class="theory-list traps-list">${item.traps.map(x=>`<li>${x}</li>`).join("")}</ul></div></details>
       <details><summary>🎯 Como estudar este assunto</summary><div class="reading-body"><ol class="theory-list">${item.practice.map(x=>`<li>${x}</li>`).join("")}</ol></div></details>
-      <article class="theory-source"><span>Material-base do seu acervo</span><a href="${item.source}" target="_blank" rel="noopener">Abrir apostila original ↗</a></article>`;
+      <article class="theory-source"><span>Conteúdo teórico autoral • PDF Concurso EDU</span><span>Leia → pratique → registre os erros → revise</span></article>`;
     const btn=el("readQuizBtn");
     if(btn)btn.onclick=()=>location.href="/?discipline="+encodeURIComponent(readingDiscipline)+"&topic="+encodeURIComponent(item.title);
   }
@@ -377,6 +379,20 @@
   function bind(){
     document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.view)));
     document.querySelectorAll("[data-jump]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.jump)));
+    el("readDisciplineSelect")?.addEventListener("change",e=>{
+      readingDiscipline=e.target.value;
+      readingTopic="";
+      state.readingDiscipline=readingDiscipline;
+      state.readingTopic="";
+      save();
+      renderReading();
+    });
+    el("readTopicSelect")?.addEventListener("change",e=>{
+      readingTopic=e.target.value;
+      state.readingTopic=readingTopic;
+      save();
+      renderReading();
+    });
     el("continueBtn").onclick=()=>dueCards().length?startDueReview():(setModule(state.lastModule||1),go("read"));
     el("reviewDueBtn").onclick=startDueReview;
     el("flashcard").onclick=()=>el("flashcard").classList.toggle("flipped");
