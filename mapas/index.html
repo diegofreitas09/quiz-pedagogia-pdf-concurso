@@ -101,8 +101,12 @@
 
   <section id="view-read" class="view hidden">
     <div class="page-head">
-      <div><p class="eyebrow">LEITURA GUIADA</p><h1>Resumo por assunto</h1><p>Os pontos-chave do material-base organizados para leitura rápida antes da revisão ativa.</p></div>
-      <div id="readSelector" class="module-select"></div>
+      <div><p class="eyebrow">LEITURA GUIADA</p><h1>Teoria e resumo por assunto</h1><p>Português, Raciocínio Lógico e Pedagogia organizados para estudar antes de resolver questões.</p></div>
+      <div class="reading-controls">
+        <label>Disciplina<select id="readDisciplineSelect"></select></label>
+        <label id="readTopicLabel">Assunto<select id="readTopicSelect"></select></label>
+        <div id="readSelector" class="module-select"></div>
+      </div>
     </div>
     <div class="reading-layout">
       <aside class="panel module-summary">
@@ -112,6 +116,7 @@
         <p id="readModuleMeta"></p>
         <button class="secondary full" data-jump="maps">Abrir mapa mental</button>
         <button class="secondary full" data-jump="cards">Revisar flashcards</button>
+        <button id="readQuizBtn" class="primary full">Resolver questões deste assunto</button>
       </aside>
       <div id="readingContent" class="reading-list"></div>
     </div>
@@ -432,6 +437,7 @@
   <strong>PDF Concurso EDU</strong> • Preparatório Diego Freitas
   <small>Conteúdo organizado a partir do material-base de estudos. Em legislação e normas, confira sempre o edital e a versão oficial vigente.</small>
 </footer>
+<script src="theory.js"></script>
 <script src="app.js"></script>
 <script src="../banks/catalog.js"></script>
 <script src="planner.js"></script>
