@@ -499,6 +499,7 @@
   renderCard();
   renderProgress();
   if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>{});
-  const allowed=["home","read","maps","cards","quiz","progress"];
-  go(allowed.includes(state.lastView)?state.lastView:"home");
+  const allowed=["home","read","maps","cards","quiz","planner","progress"];
+  const hashView=location.hash==="#cronograma"?"planner":null;
+  go(hashView|| (allowed.includes(state.lastView)?state.lastView:"home"));
 })();
