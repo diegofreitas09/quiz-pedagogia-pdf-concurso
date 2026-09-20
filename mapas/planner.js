@@ -1,5 +1,5 @@
 (()=>{
-const K='pdfPlannerV1',EK='pdfErrorNotebookV1',DAY=86400000,$=id=>document.getElementById(id),q=(s,r=document)=>[...r.querySelectorAll(s)];
+const K='pdfPlannerV1',EK='pdfErrorNotebookV1',DAY=86400000,$=id=>document.getElementById(id),q=(s,r=document)=>[...r.querySelectorAll(s)],BANK_CATALOG=window.PEDAGOGO_CATALOG||[];
 const DAYS=[['sun','Domingo',0,'09:00',180],['mon','Segunda-feira',1,'19:00',120],['tue','Terça-feira',2,'19:00',120],['wed','Quarta-feira',3,'19:00',120],['thu','Quinta-feira',4,'19:00',120],['fri','Sexta-feira',5,'19:00',120],['sat','Sábado',6,'09:00',180]];
 const PED=[
 ['Autores e Pensadores','Paulo Freire|Dermeval Saviani|José Carlos Libâneo|Cipriano Luckesi|Philippe Perrenoud|Maria Montessori|Emília Ferreiro|Magda Soares',5,3,1],
@@ -30,8 +30,64 @@ function row(s={}){
 }
 function bindRemove(){q('.subject-remove',$('plannerSubjects')).forEach(b=>b.onclick=()=>b.closest('[data-subject-row]').remove())}
 function addSub(s){$('plannerSubjects').insertAdjacentHTML('beforeend',row(s));bindRemove()}
-function samples(){ $('plannerSubjects').innerHTML='';addSub({name:'Língua Portuguesa',importance:5,difficulty:3,topics:['Interpretação de texto','Classes gramaticais','Verbos','Concordância','Regência','Crase']});addSub({name:'Didática',importance:5,difficulty:4,topics:['Conceitos de didática','Planejamento','Objetivos e conteúdos','Tendências pedagógicas','Avaliação da aprendizagem','Metodologias ativas']})}
-function pedagogy(){ $('plannerSubjects').innerHTML='';PED.forEach(([name,t,i,d,m])=>addSub({name,topics:t.split('|'),importance:i,difficulty:d,moduleNumber:m}))}
+function catalogEntry(name){return BANK_CATALOG.find(x=>x.name===name)}
+function catalogTopics(name){return (catalogEntry(name)?.topics||[]).map(x=>x.name)}
+function addCatalogSubject(name,importance,difficulty,moduleNumber=null){
+  const topics=catalogTopics(name);
+  if(topics.length)addSub({name,topics,importance,difficulty,moduleNumber});
+}
+function samples(){
+  $('plannerSubjects').innerHTML='';
+  if(BANK_CATALOG.length){
+    addCatalogSubject('Língua Portuguesa',5,3);
+    addCatalogSubject('Raciocínio Lógico',5,4);
+    addCatalogSubject('Conhecimentos Pedagógicos',5,4,1);
+    addCatalogSubject('Legislação Educacional',5,4,3);
+  }else{
+    addSub({name:'Língua Portuguesa',importance:5,difficulty:3,topics:['Interpretação de texto','Verbos','Concordância','Regência','Crase']});
+    addSub({name:'Raciocínio Lógico',importance:5,difficulty:4,topics:['Proposições','Equivalência','Sequências','Probabilidade']});
+    addSub({name:'Conhecimentos Pedagógicos',importance:5,difficulty:4,topics:['Didática','Planejamento','Avaliação da Aprendizagem','LDB','BNCC']});
+  }
+}
+function pedagogy(){
+  $('plannerSubjects').innerHTML='';
+  if(BANK_CATALOG.length){
+    addCatalogSubject('Língua Portuguesa',5,3);
+    addCatalogSubject('Raciocínio Lógico',5,4);
+    addCatalogSubject('Conhecimentos Pedagógicos',5,4,1);
+    addCatalogSubject('Legislação Educacional',5,4,3);
+    const est=catalogEntry('Legislação Estadual');if(est?.count>0)addCatalogSubject('Legislação Estadual',3,3);
+  }else PED.forEach(([name,t,i,d,m])=>addSub({name,topics:t.split('|'),importance:i,difficulty:d,moduleNumber:m}));
+}
+function mapOldSubjectName(name){
+  if(name==='Português'||name==='Lingua Portuguesa')return'Língua Portuguesa';
+  if(name==='Didática')return'Conhecimentos Pedagógicos';
+  return name;
+}
+function migrateCatalogPlan(){
+  if(!P||!BANK_CATALOG.length||P.catalogVersion===2)return;
+  const old=P.subjects||[],main=['Língua Portuguesa','Raciocínio Lógico','Conhecimentos Pedagógicos','Legislação Educacional'];
+  const rebuilt=[];
+  for(const name of main){
+    const oldMatch=old.find(s=>mapOldSubjectName(s.name)===name);
+    const topics=catalogTopics(name);
+    if(!topics.length)continue;
+    let progress=oldMatch?.progress||prog();
+    if(oldMatch&&progress.topicIndex>0){
+      const oldTopic=oldMatch.topics?.[Math.min(progress.topicIndex,Math.max(0,(oldMatch.topics?.length||1)-1))];
+      const idx=topics.findIndex(t=>t.toLocaleLowerCase('pt-BR')===String(oldTopic||'').toLocaleLowerCase('pt-BR'));
+      if(idx>=0)progress={...progress,topicIndex:idx};
+    }
+    rebuilt.push({id:oldMatch?.id||uid(),name,importance:oldMatch?.importance||5,difficulty:oldMatch?.difficulty||(name==='Língua Portuguesa'?3:4),topics,moduleNumber:oldMatch?.moduleNumber||null,progress});
+  }
+  for(const s of old){
+    if(!main.includes(mapOldSubjectName(s.name))&&s.name!=='Didática')rebuilt.push(s);
+  }
+  P.subjects=rebuilt;
+  P.catalogVersion=2;
+  P.sessions=generate(P.config,P.subjects);
+  save();
+}
 function showStep(){q('.planner-step',$('plannerWizard')).forEach(x=>x.classList.toggle('hidden',+x.dataset.step!==step));$('plannerWizardTitle').textContent=['','1. Objetivo e ritmo','2. Dias e horários','3. Disciplinas e tópicos','4. Revisões, erros e simulados'][step];$('plannerStepBar').style.width=step*25+'%';$('plannerPrevStep').classList.toggle('hidden',step===1);$('plannerNextStep').classList.toggle('hidden',step===4);$('plannerGenerate').classList.toggle('hidden',step!==4)}
 function populate(){
  const c=P.config;$('plannerGoal').value=c.goal||'';$('plannerExamDate').value=c.examDate||'';$('plannerLevel').value=c.level||'intermediario';$('plannerBlockMinutes').value=c.blockMinutes||50;$('plannerBreakMinutes').value=c.breakMinutes||10;$('plannerDailyReview').value=c.dailyReview||20;$('plannerReviewDay').innerHTML=dayOpts(c.reviewDay||'sun');$('plannerErrorDay').innerHTML=dayOpts(c.errorDay||'wed');$('plannerErrorMinutes').value=c.errorMinutes||30;$('plannerSimulationMinutes').value=c.simulationMinutes||120;$('plannerSimSat').checked=(c.simDays||[]).includes('sat');$('plannerSimSun').checked=(c.simDays||[]).includes('sun');$('plannerAutoCarry').checked=c.autoCarry!==false;$('plannerAskNotifications').checked=c.askNotifications!==false;
@@ -96,7 +152,21 @@ function render(){
 function renderErrors(){let e=errs(),open=e.filter(x=>!x.resolved),root=$('plannerErrors');root.innerHTML=open.length?open.slice(-30).reverse().map(x=>`<article class="planner-error"><div><span>${esc(x.subject||'Geral')}</span><b>${esc(x.question||'Questão registrada')}</b><small>${esc(x.explanation||x.correct||'Revise a explicação e refaça a questão.')}</small></div><button class="secondary compact" data-resolve="${x.id}">Revisado ✓</button></article>`).join(''):'<p>Nenhum erro pendente. Os erros das questões aparecerão aqui automaticamente.</p>';q('[data-resolve]',root).forEach(b=>b.onclick=()=>{let list=errs(),it=list.find(x=>x.id===b.dataset.resolve);if(it){it.resolved=true;it.resolvedAt=Date.now();putErr(list);render()}})}
 function build(e){e.preventDefault();let c=config(),s=subjects();if(!Object.values(c.availability).some(x=>x.enabled)){alert('Marque pelo menos um dia de estudo.');step=2;showStep();return}if(!s.length){alert('Cadastre pelo menos uma disciplina com tópico.');step=3;showStep();return}P={version:1,createdAt:P?.createdAt||Date.now(),config:c,subjects:s,sessions:generate(c,s)};save();$('plannerWizard').close();render();if(c.askNotifications&&'Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{})}
 function replan(){if(!P)return;let completed=P.sessions.filter(done);P.sessions=completed.concat(generate(P.config,P.subjects).filter(x=>when(x)>Date.now()-60000));save();render()}
-function start(id){let x=P?.sessions.find(s=>s.id===id);if(!x)return;x.status='started';x.startedAt=Date.now();x.endsAt=Date.now()+x.minutes*60000;save();render();let t=task(x);if(['theory','questions','review'].includes(t.mode))document.querySelector('[data-view="read"]')?.click()}
+function bankTarget(subject,topic){
+  let discipline=mapOldSubjectName(subject?.name||'');
+  if(!catalogEntry(discipline)){
+    const hit=BANK_CATALOG.find(d=>(d.topics||[]).some(t=>t.name.toLocaleLowerCase('pt-BR')===String(topic||'').toLocaleLowerCase('pt-BR')));
+    if(hit)discipline=hit.name;
+  }
+  let targetTopic=topic||'';
+  const entry=catalogEntry(discipline);
+  if(entry&&targetTopic){
+    const exact=entry.topics.find(t=>t.name.toLocaleLowerCase('pt-BR')===targetTopic.toLocaleLowerCase('pt-BR'));
+    if(exact)targetTopic=exact.name;
+  }
+  return{discipline,topic:targetTopic};
+}
+function start(id){let x=P?.sessions.find(s=>s.id===id);if(!x)return;x.status='started';x.startedAt=Date.now();x.endsAt=Date.now()+x.minutes*60000;save();render();let t=task(x);if(['theory','questions','review','maintenance'].includes(t.mode)&&t.subject){let target=bankTarget(t.subject,t.topic);location.href='/?discipline='+encodeURIComponent(target.discipline)+(target.topic?'&topic='+encodeURIComponent(target.topic):'')}}
 function snooze(id,min){let x=P?.sessions.find(s=>s.id===id);if(!x)return;x.snoozedUntil=Date.now()+min*60000;x.notifiedAt=null;save();render()}
 async function notify(x){let t=task(x);if('Notification'in window&&Notification.permission==='granted')try{let r=await navigator.serviceWorker.ready;r.showNotification('📚 '+t.title,{body:(t.topic||'Hora de estudar')+' • '+x.minutes+' min',icon:'/assets/logo-pdf-concurso.png',badge:'/assets/logo-pdf-concurso.png',tag:'planner-'+x.id,renotify:true,data:{url:'/mapas/#cronograma'}})}catch{}}
 function alarms(){if(!P)return;let now=Date.now(),x=P.sessions.filter(s=>!done(s)&&s.status!=='started').sort((a,b)=>when(a)-when(b)).find(s=>when(s)<=now&&(!s.notifiedAt||now-s.notifiedAt>6*60*60*1000));if(x){x.notifiedAt=now;save();notify(x);if(!$('plannerAlertDialog').open){let t=task(x);alarmId=x.id;$('plannerAlertTitle').textContent=t.title;$('plannerAlertText').textContent=(t.topic||'')+' • '+x.minutes+' minutos. '+(t.recipe[0]||'Comece agora.');$('plannerAlertDialog').showModal()}}render()}
@@ -106,5 +176,5 @@ function bind(){
  $('plannerTodayBtn').onclick=()=>document.querySelector('.planner-day.today')?.scrollIntoView({behavior:'smooth',inline:'center'});$('plannerAlertSnooze').onclick=()=>{snooze(alarmId,10);$('plannerAlertDialog').close()};$('plannerAlertStart').onclick=()=>{let id=alarmId;$('plannerAlertDialog').close();document.querySelector('[data-view="planner"]')?.click();start(id)};
  $('plannerClearResolvedErrors').onclick=()=>{putErr(errs().filter(x=>!x.resolved));render()};window.addEventListener('pdf-errors-updated',render);window.addEventListener('storage',e=>{if([K,EK,'pdfQuiz','pdfStudyMapV1'].includes(e.key))render()})
 }
-availability();$('plannerReviewDay').innerHTML=dayOpts('sun');$('plannerErrorDay').innerHTML=dayOpts('wed');samples();bind();render();alarms();timer=setInterval(alarms,30000);window.addEventListener('pagehide',()=>clearInterval(timer),{once:true});
+availability();$('plannerReviewDay').innerHTML=dayOpts('sun');$('plannerErrorDay').innerHTML=dayOpts('wed');samples();migrateCatalogPlan();bind();render();alarms();timer=setInterval(alarms,30000);window.addEventListener('pagehide',()=>clearInterval(timer),{once:true});
 })();
