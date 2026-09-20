@@ -166,7 +166,37 @@ function bankTarget(subject,topic){
   }
   return{discipline,topic:targetTopic};
 }
-function start(id){let x=P?.sessions.find(s=>s.id===id);if(!x)return;x.status='started';x.startedAt=Date.now();x.endsAt=Date.now()+x.minutes*60000;save();render();let t=task(x);if(['theory','questions','review','maintenance'].includes(t.mode)&&t.subject){let target=bankTarget(t.subject,t.topic);if(t.mode==='questions'){location.href='/?discipline='+encodeURIComponent(target.discipline)+(target.topic?'&topic='+encodeURIComponent(target.topic):'')}else{location.href='/mapas/?discipline='+encodeURIComponent(target.discipline)+(target.topic?'&topic='+encodeURIComponent(target.topic):'')+'#leitura'}}}
+function start(id){
+ let x=P?.sessions.find(s=>s.id===id);if(!x)return;
+ x.status='started';x.startedAt=Date.now();x.endsAt=Date.now()+x.minutes*60000;save();render();
+ let t=task(x);
+ if(['theory','questions','review','maintenance'].includes(t.mode)&&t.subject){
+   let target=bankTarget(t.subject,t.topic);
+   if(t.mode==='questions'){
+     location.href='/?discipline='+encodeURIComponent(target.discipline)+(target.topic?'&topic='+encodeURIComponent(target.topic):'');
+   }else{
+     location.href='/mapas/?discipline='+encodeURIComponent(target.discipline)+(target.topic?'&topic='+encodeURIComponent(target.topic):'')+'#leitura';
+   }
+   return;
+ }
+ if(x.type==='daily-review'){
+   location.href='/mapas/?review=due#cards';
+   return;
+ }
+ if(x.type==='weekly-review'){
+   location.href='/mapas/#leitura';
+   return;
+ }
+ if(x.type==='error-notebook'){
+   document.querySelector('[data-view="planner"]')?.click();
+   setTimeout(()=>document.getElementById('plannerErrors')?.scrollIntoView({behavior:'smooth',block:'start'}),120);
+   return;
+ }
+ if(x.type==='simulation-theme'||x.type==='simulation-general'){
+   location.href='/?discipline=Todas';
+   return;
+ }
+}
 function snooze(id,min){let x=P?.sessions.find(s=>s.id===id);if(!x)return;x.snoozedUntil=Date.now()+min*60000;x.notifiedAt=null;save();render()}
 async function notify(x){let t=task(x);if('Notification'in window&&Notification.permission==='granted')try{let r=await navigator.serviceWorker.ready;r.showNotification('📚 '+t.title,{body:(t.topic||'Hora de estudar')+' • '+x.minutes+' min',icon:'/assets/logo-pdf-concurso.png',badge:'/assets/logo-pdf-concurso.png',tag:'planner-'+x.id,renotify:true,data:{url:'/mapas/#cronograma'}})}catch{}}
 function alarms(){if(!P)return;let now=Date.now(),x=P.sessions.filter(s=>!done(s)&&s.status!=='started').sort((a,b)=>when(a)-when(b)).find(s=>when(s)<=now&&(!s.notifiedAt||now-s.notifiedAt>6*60*60*1000));if(x){x.notifiedAt=now;save();notify(x);if(!$('plannerAlertDialog').open){let t=task(x);alarmId=x.id;$('plannerAlertTitle').textContent=t.title;$('plannerAlertText').textContent=(t.topic||'')+' • '+x.minutes+' minutos. '+(t.recipe[0]||'Comece agora.');$('plannerAlertDialog').showModal()}}render()}
