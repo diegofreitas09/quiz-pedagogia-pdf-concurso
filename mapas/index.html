@@ -10,6 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/logo-pdf-concurso.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="planner.css">
 </head>
 <body>
 <header class="topbar">
@@ -23,6 +24,7 @@
     <button data-view="maps" class="navbtn">Mapas</button>
     <button data-view="cards" class="navbtn">Flashcards</button>
     <button data-view="quiz" class="navbtn">Questões</button>
+    <button data-view="planner" class="navbtn">Cronograma</button>
     <button data-view="progress" class="navbtn">Progresso</button>
   </nav>
   <button id="installBtn" class="install hidden">Instalar app</button>
@@ -209,6 +211,77 @@
       <button id="resetProgress" class="ghost danger">Zerar meu progresso</button>
     </div>
   </section>
+
+  <section id="view-planner" class="view hidden">
+    <div class="page-head planner-page-head">
+      <div>
+        <p class="eyebrow">CRONOGRAMA INTELIGENTE</p>
+        <h1>Seu plano de estudos, dia após dia</h1>
+        <p>Defina dias, horários, disciplinas e temas. O app distribui sua carga, preserva o ponto onde você parou e replaneja pendências sem perder a sequência.</p>
+      </div>
+      <div class="planner-head-actions">
+        <button id="plannerSetupBtn" class="primary">Montar meu cronograma</button>
+        <button id="plannerReplanBtn" class="secondary hidden">Replanejar</button>
+      </div>
+    </div>
+
+    <section id="plannerEmpty" class="panel planner-empty">
+      <span class="planner-empty-icon">🗓️</span>
+      <h2>Monte seu primeiro ciclo de estudos</h2>
+      <p>O assistente vai perguntar sua rotina, disciplinas, tópicos, nível, revisões, caderno de erros e dias de simulado. Depois ele cria o cronograma automaticamente.</p>
+      <button id="plannerEmptyStart" class="primary">Começar planejamento</button>
+    </section>
+
+    <div id="plannerDashboard" class="hidden">
+      <section class="planner-metrics">
+        <article><b id="plannerWeeklyHours">0h</b><span>disponíveis/semana</span></article>
+        <article><b id="plannerNeededHours">0h</b><span>recomendadas/semana</span></article>
+        <article><b id="plannerAdherence">0%</b><span>cumprimento</span></article>
+        <article><b id="plannerErrorCount">0</b><span>erros para revisar</span></article>
+      </section>
+
+      <section id="plannerNextCard" class="panel planner-next">
+        <div>
+          <p class="eyebrow">PRÓXIMO PASSO</p>
+          <h2 id="plannerNextTitle">Seu próximo estudo aparecerá aqui.</h2>
+          <p id="plannerNextMeta"></p>
+          <div id="plannerNextRecipe" class="planner-recipe"></div>
+        </div>
+        <div class="planner-next-actions">
+          <button id="plannerStartTask" class="primary">Começar agora</button>
+          <button id="plannerCompleteTask" class="secondary">Marcar concluído</button>
+          <button id="plannerSnoozeTask" class="ghost">Adiar 30 min</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <div><p class="eyebrow">SEMANA</p><h2 id="plannerWeekTitle">Agenda da semana</h2></div>
+          <button id="plannerTodayBtn" class="secondary compact">Ir para hoje</button>
+        </div>
+        <div id="plannerWeek" class="planner-week"></div>
+      </section>
+
+      <section class="planner-two-col">
+        <article class="panel">
+          <div class="section-head"><div><p class="eyebrow">LINHA DE DESENVOLVIMENTO</p><h2>Onde parei e o que vem agora</h2></div></div>
+          <div id="plannerRoadmap" class="planner-roadmap"></div>
+        </article>
+        <article class="panel">
+          <div class="section-head"><div><p class="eyebrow">RELATÓRIO</p><h2>Desempenho do planejamento</h2></div></div>
+          <div id="plannerReport" class="planner-report"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <div><p class="eyebrow">CADERNO DE ERROS</p><h2>Erros viram tarefas de revisão</h2></div>
+          <button id="plannerClearResolvedErrors" class="secondary compact">Limpar resolvidos</button>
+        </div>
+        <div id="plannerErrors" class="planner-errors"></div>
+      </section>
+    </div>
+  </section>
 </main>
 
 <dialog id="detailDialog">
@@ -223,11 +296,135 @@
   </div>
 </dialog>
 
+
+<dialog id="plannerWizard" class="planner-dialog">
+  <button id="plannerWizardClose" class="dialog-close" aria-label="Fechar">×</button>
+  <div class="planner-wizard-head">
+    <p class="eyebrow">PLANEJAMENTO PERSONALIZADO</p>
+    <h2 id="plannerWizardTitle">1. Objetivo e ritmo</h2>
+    <div class="planner-stepbar"><i id="plannerStepBar"></i></div>
+  </div>
+
+  <form id="plannerWizardForm">
+    <section class="planner-step" data-step="1">
+      <label>Qual é seu objetivo principal?
+        <input id="plannerGoal" type="text" placeholder="Ex.: Concurso SME, SEDUC, Prefeitura...">
+      </label>
+      <label>Data da prova (opcional)
+        <input id="plannerExamDate" type="date">
+      </label>
+      <div class="planner-form-grid">
+        <label>Seu nível hoje
+          <select id="plannerLevel">
+            <option value="iniciante">Iniciante — construir base</option>
+            <option value="intermediario" selected>Intermediário — equilibrar teoria e questões</option>
+            <option value="avancado">Avançado — foco em questões e revisão</option>
+          </select>
+        </label>
+        <label>Tamanho do bloco de estudo
+          <select id="plannerBlockMinutes">
+            <option value="30">30 minutos</option>
+            <option value="40">40 minutos</option>
+            <option value="50" selected>50 minutos</option>
+            <option value="60">60 minutos</option>
+            <option value="90">90 minutos</option>
+          </select>
+        </label>
+        <label>Intervalo entre blocos
+          <select id="plannerBreakMinutes">
+            <option value="5">5 minutos</option>
+            <option value="10" selected>10 minutos</option>
+            <option value="15">15 minutos</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="planner-step hidden" data-step="2">
+      <p class="planner-help">Marque os dias em que você pode estudar e informe o horário de início e o tempo disponível.</p>
+      <div id="plannerAvailability" class="planner-availability"></div>
+    </section>
+
+    <section class="planner-step hidden" data-step="3">
+      <div class="planner-subject-actions">
+        <p class="planner-help">Cadastre a disciplina, a importância na sua prova, sua dificuldade e os tópicos na ordem em que deseja estudar.</p>
+        <button id="plannerLoadPedagogy" type="button" class="secondary compact">Carregar trilhas de Pedagogia</button>
+        <button id="plannerAddSubject" type="button" class="secondary compact">+ Adicionar disciplina</button>
+      </div>
+      <div id="plannerSubjects" class="planner-subjects"></div>
+    </section>
+
+    <section class="planner-step hidden" data-step="4">
+      <div class="planner-form-grid">
+        <label>Revisão rápida no início de cada dia
+          <select id="plannerDailyReview">
+            <option value="0">Sem revisão diária</option>
+            <option value="10">10 minutos</option>
+            <option value="20" selected>20 minutos</option>
+            <option value="30">30 minutos</option>
+          </select>
+        </label>
+        <label>Dia da revisão semanal
+          <select id="plannerReviewDay"></select>
+        </label>
+        <label>Dia do caderno de erros
+          <select id="plannerErrorDay"></select>
+        </label>
+        <label>Tempo para o caderno de erros
+          <select id="plannerErrorMinutes">
+            <option value="20">20 minutos</option>
+            <option value="30" selected>30 minutos</option>
+            <option value="45">45 minutos</option>
+            <option value="60">60 minutos</option>
+          </select>
+        </label>
+        <label>Duração do simulado
+          <select id="plannerSimulationMinutes">
+            <option value="60">1 hora</option>
+            <option value="90">1h30</option>
+            <option value="120" selected>2 horas</option>
+            <option value="180">3 horas</option>
+          </select>
+        </label>
+      </div>
+      <fieldset class="planner-fieldset">
+        <legend>Dias de simulado</legend>
+        <label><input id="plannerSimSat" type="checkbox" checked> Sábado — simulado temático</label>
+        <label><input id="plannerSimSun" type="checkbox" checked> Domingo — simulado geral + análise</label>
+      </fieldset>
+      <fieldset class="planner-fieldset">
+        <legend>Automação</legend>
+        <label><input id="plannerAutoCarry" type="checkbox" checked> Replanejar automaticamente tarefas não cumpridas</label>
+        <label><input id="plannerAskNotifications" type="checkbox" checked> Pedir autorização para avisos nos horários de estudo</label>
+      </fieldset>
+      <p class="planner-help">O cronograma fica salvo somente neste aparelho/navegador. Se o aluno perder os dados do navegador, o histórico local também é apagado.</p>
+    </section>
+
+    <div class="planner-wizard-actions">
+      <button id="plannerPrevStep" type="button" class="secondary hidden">← Voltar</button>
+      <button id="plannerNextStep" type="button" class="primary">Continuar →</button>
+      <button id="plannerGenerate" type="submit" class="primary hidden">Gerar cronograma automático</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="plannerAlertDialog" class="planner-alert-dialog">
+  <span class="planner-alarm-icon">⏰</span>
+  <p class="eyebrow">HORA DE ESTUDAR</p>
+  <h2 id="plannerAlertTitle"></h2>
+  <p id="plannerAlertText"></p>
+  <div class="dialog-actions">
+    <button id="plannerAlertSnooze" class="secondary">Adiar 10 min</button>
+    <button id="plannerAlertStart" class="primary">Começar agora</button>
+  </div>
+</dialog>
+
 <nav class="bottomnav" aria-label="Navegação móvel">
   <button data-view="home" class="navbtn active">⌂<span>Início</span></button>
   <button data-view="maps" class="navbtn">⌘<span>Mapas</span></button>
   <button data-view="cards" class="navbtn">▣<span>Cards</span></button>
   <button data-view="quiz" class="navbtn">✓<span>Questões</span></button>
+  <button data-view="planner" class="navbtn">◷<span>Plano</span></button>
   <button data-view="progress" class="navbtn">◎<span>Progresso</span></button>
 </nav>
 
@@ -236,5 +433,6 @@
   <small>Conteúdo organizado a partir do material-base de estudos. Em legislação e normas, confira sempre o edital e a versão oficial vigente.</small>
 </footer>
 <script src="app.js"></script>
+<script src="planner.js"></script>
 </body>
 </html>
