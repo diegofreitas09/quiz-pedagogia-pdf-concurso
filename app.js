@@ -1692,15 +1692,53 @@ const sampleQuestions=[
 {c:'Inclusão',q:'O Atendimento Educacional Especializado deve:',o:['Substituir a escolarização comum','Complementar ou suplementar a formação','Separar todos os estudantes','Ocorrer apenas mediante reprovação'],a:1,e:'O AEE não substitui o ensino comum; oferece recursos e estratégias para eliminar barreiras à participação e aprendizagem.'},
 {c:'Didática',q:'Uma sequência didática é melhor definida como:',o:['Atividades sem relação entre si','Conjunto articulado de atividades com objetivo de aprendizagem','Prova aplicada mensalmente','Plano administrativo anual'],a:1,e:'A sequência didática organiza atividades progressivas e articuladas em função de objetivos claros de aprendizagem.'}
 ];
-const questions=importedQuestions;
-const tracks=[...new Set(questions.map(x=>x.c))];let state=JSON.parse(localStorage.getItem('pdfQuiz')||'{"answered":0,"correct":0,"minutes":0,"streak":0,"goal":10,"byCategory":{}}');state.byCategory=state.byCategory||{};let run=[],i=0,hits=0,answers=[],started=0;
-const $=s=>document.querySelector(s);function save(){localStorage.setItem('pdfQuiz',JSON.stringify(state))}function show(id){['home','setup','quiz','result'].forEach(x=>$('#'+x).classList.toggle('hidden',x!==id));if(id==='home')renderHome()}function renderHome(){$('#answered').textContent=state.answered;$('#accuracy').textContent=state.answered?Math.round(state.correct/state.answered*100)+'%':'0%';$('#minutes').textContent=state.minutes;$('#streak').textContent=state.streak;$('#goalDone').textContent=Math.min(state.answered,state.goal);$('#goalTotal').textContent=state.goal;$('#goalBar').style.width=Math.min(100,state.answered/state.goal*100)+'%';$('#tracks').innerHTML=tracks.map(t=>`<article><h3>${t}</h3><span>${state.answered?'Em andamento':'Não iniciado'}</span></article>`).join('')}
-$('#category').innerHTML='<option value="Todas">Todas as áreas</option>'+tracks.map(x=>`<option>${x}</option>`).join('');$('#start').onclick=()=>show('setup');document.querySelectorAll('[data-to]').forEach(b=>b.onclick=()=>show(b.dataset.to));$('#reset').onclick=()=>{if(confirm('Deseja apagar todo o progresso deste dispositivo?')){state={answered:0,correct:0,minutes:0,streak:0,goal:10,byCategory:{}};save();renderHome();window.dispatchEvent(new Event("pdf-progress-updated"))}};
-$('#begin').onclick=()=>{let pool=$('#category').value==='Todas'?questions:questions.filter(x=>x.c===$('#category').value);run=[...pool].sort(()=>Math.random()-.5).slice(0,Math.min(+$ ('#amount').value,pool.length));i=hits=0;answers=[];started=Date.now();show('quiz');draw()};
-function draw(){let x=run[i];$('#progressText').textContent=`Questão ${i+1} de ${run.length}`;$('#quizBar').style.width=(i/run.length*100)+'%';$('#tag').textContent=x.c;$('#prompt').textContent=x.q;$('#feedback').classList.add('hidden');$('#next').classList.add('hidden');$('#options').innerHTML=x.o.map((v,n)=>`<button class="option" data-n="${n}">${String.fromCharCode(65+n)}) ${v}</button>`).join('');document.querySelectorAll('.option').forEach(b=>b.onclick=()=>answer(+b.dataset.n))}
-function answer(n){let x=run[i];document.querySelectorAll('.option').forEach((b,k)=>{b.disabled=true;if(k===x.a)b.classList.add('correct');if(k===n&&n!==x.a)b.classList.add('wrong')});if(n===x.a)hits++;const cat=state.byCategory[x.c]||{answered:0,correct:0};cat.answered++;if(n===x.a)cat.correct++;state.byCategory[x.c]=cat;if(n!==x.a){try{let list=JSON.parse(localStorage.getItem('pdfErrorNotebookV1')||'[]');let key='quiz-'+(x.id||x.q);if(!list.some(e=>e.key===key&&!e.resolved))list.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),key,subject:x.c,question:x.q,correct:x.o[x.a],explanation:x.e,createdAt:Date.now(),resolved:false});localStorage.setItem('pdfErrorNotebookV1',JSON.stringify(list));window.dispatchEvent(new Event('pdf-errors-updated'))}catch{}}save();window.dispatchEvent(new Event("pdf-progress-updated"));answers.push({x,n});$('#feedback').innerHTML=`<strong>${n===x.a?'Acertou!':'Atenção:'}</strong> ${x.e}`;$('#feedback').classList.remove('hidden');$('#next').classList.remove('hidden')}
+const bankQuestions=[
+  ...(window.PEDAGOGO_PORTUGUES||[]),
+  ...(window.PEDAGOGO_RLM||[]),
+  ...(window.PEDAGOGO_PEDAGOGIA||[])
+].map((x,i)=>({
+  id:x.id||('bank-'+i),
+  discipline:x.discipline||'Conhecimentos Pedagógicos',
+  topic:x.topic||'Geral',
+  c:x.topic||'Geral',
+  q:(x.context?x.context.trim()+'\n\n':'')+x.statement,
+  o:x.options,
+  a:x.answer,
+  e:x.explanation||'',
+  source:x.source||'PDF Concurso EDU',
+  origin:x.origin||''
+}));
+const legacyNormalized=importedQuestions.map((x,i)=>({...x,id:x.id||('legacy-'+i),discipline:'Conhecimentos Pedagógicos',topic:x.c||'Geral'}));
+const seenQuestions=new Set();
+const questions=[...bankQuestions,...legacyNormalized].filter(x=>{
+  const k=(x.q+'||'+x.o.join('||')).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+  if(seenQuestions.has(k))return false;
+  seenQuestions.add(k);return true;
+});
+const disciplines=[...new Set(questions.map(x=>x.discipline))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+const tracks=disciplines;let state=JSON.parse(localStorage.getItem('pdfQuiz')||'{"answered":0,"correct":0,"minutes":0,"streak":0,"goal":10,"byCategory":{}}');state.byCategory=state.byCategory||{};let run=[],i=0,hits=0,answers=[],started=0;
+const $=s=>document.querySelector(s);function save(){localStorage.setItem('pdfQuiz',JSON.stringify(state))}function show(id){['home','setup','quiz','result'].forEach(x=>$('#'+x).classList.toggle('hidden',x!==id));if(id==='home')renderHome()}function renderHome(){$('#answered').textContent=state.answered;$('#accuracy').textContent=state.answered?Math.round(state.correct/state.answered*100)+'%':'0%';$('#minutes').textContent=state.minutes;$('#streak').textContent=state.streak;$('#goalDone').textContent=Math.min(state.answered,state.goal);$('#goalTotal').textContent=state.goal;$('#goalBar').style.width=Math.min(100,state.answered/state.goal*100)+'%';$('#tracks').innerHTML=tracks.map(t=>{const n=questions.filter(q=>q.discipline===t).length;const topics=new Set(questions.filter(q=>q.discipline===t).map(q=>q.topic)).size;return `<article><h3>${t}</h3><span>${n} questões • ${topics} assuntos</span></article>`}).join('')}
+function fillTopics(){const d=$('#discipline').value;const topics=[...new Set(questions.filter(q=>d==='Todas'||q.discipline===d).map(q=>q.topic))].sort((a,b)=>a.localeCompare(b,'pt-BR'));$('#category').innerHTML='<option value="Todas">Todos os assuntos</option>'+topics.map(x=>`<option>${x}</option>`).join('')}$('#discipline').innerHTML='<option value="Todas">Todas as disciplinas</option>'+disciplines.map(x=>`<option>${x}</option>`).join('');$('#discipline').onchange=fillTopics;fillTopics();$('#start').onclick=()=>show('setup');document.querySelectorAll('[data-to]').forEach(b=>b.onclick=()=>show(b.dataset.to));$('#reset').onclick=()=>{if(confirm('Deseja apagar todo o progresso deste dispositivo?')){state={answered:0,correct:0,minutes:0,streak:0,goal:10,byCategory:{}};save();renderHome();window.dispatchEvent(new Event("pdf-progress-updated"))}};
+$('#begin').onclick=()=>{const d=$('#discipline').value,t=$('#category').value;let pool=questions.filter(x=>(d==='Todas'||x.discipline===d)&&(t==='Todas'||x.topic===t));run=[...pool].sort(()=>Math.random()-.5).slice(0,Math.min(+$ ('#amount').value,pool.length));if(!run.length){alert('Não há questões para este filtro.');return}i=hits=0;answers=[];started=Date.now();show('quiz');draw()};
+function draw(){let x=run[i];$('#progressText').textContent=`Questão ${i+1} de ${run.length}`;$('#quizBar').style.width=(i/run.length*100)+'%';$('#tag').textContent=x.discipline+' • '+x.topic;$('#prompt').textContent=x.q;$('#feedback').classList.add('hidden');$('#next').classList.add('hidden');$('#options').innerHTML=x.o.map((v,n)=>`<button class="option" data-n="${n}">${String.fromCharCode(65+n)}) ${v}</button>`).join('');document.querySelectorAll('.option').forEach(b=>b.onclick=()=>answer(+b.dataset.n))}
+function answer(n){let x=run[i];document.querySelectorAll('.option').forEach((b,k)=>{b.disabled=true;if(k===x.a)b.classList.add('correct');if(k===n&&n!==x.a)b.classList.add('wrong')});if(n===x.a)hits++;const cat=state.byCategory[x.c]||{answered:0,correct:0};cat.answered++;if(n===x.a)cat.correct++;state.byCategory[x.c]=cat;if(n!==x.a){try{let list=JSON.parse(localStorage.getItem('pdfErrorNotebookV1')||'[]');let key='quiz-'+(x.id||x.q);if(!list.some(e=>e.key===key&&!e.resolved))list.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),key,subject:x.discipline+' — '+x.topic,question:x.q,correct:x.o[x.a],explanation:x.e,createdAt:Date.now(),resolved:false});localStorage.setItem('pdfErrorNotebookV1',JSON.stringify(list));window.dispatchEvent(new Event('pdf-errors-updated'))}catch{}}save();window.dispatchEvent(new Event("pdf-progress-updated"));answers.push({x,n});$('#feedback').innerHTML=`<strong>${n===x.a?'Acertou!':'Atenção:'}</strong> ${x.e}<small style="display:block;margin-top:8px;opacity:.7">Fonte: ${x.source||'PDF Concurso EDU'}</small>`;$('#feedback').classList.remove('hidden');$('#next').classList.remove('hidden')}
 $('#next').onclick=()=>{if(++i<run.length)draw();else finish()};function finish(){let mins=Math.max(1,Math.round((Date.now()-started)/60000));state.answered+=run.length;state.correct+=hits;state.minutes+=mins;state.streak=Math.max(1,state.streak);save();let pct=Math.round(hits/run.length*100);$('#score').textContent=pct+'%';$('#summary').innerHTML=`<p>Você acertou <strong>${hits} de ${run.length}</strong> questões em ${mins} minuto(s).</p><p>${pct>=80?'Excelente desempenho. Avance para um simulado maior.':pct>=60?'Boa base. Revise os comentários antes do próximo simulado.':'Priorize a revisão dos assuntos com erro e tente novamente.'}</p>`;show('result')}
 $('#report').onclick=()=>{let w=open('','_blank');w.document.write(`<title>Relatório PDF Concurso EDU</title><style>body{font:16px Arial;max-width:800px;margin:40px auto}h1{color:#b40d16}.q{border-bottom:1px solid #ddd;padding:15px 0}</style><h1>Relatório comentado — PDF Concurso EDU</h1><p>Resultado: ${hits}/${run.length}</p>${answers.map((a,j)=>`<div class=q><b>${j+1}. ${a.x.q}</b><p>Sua resposta: ${a.x.o[a.n]} — ${a.n===a.x.a?'CORRETA':'INCORRETA'}</p><p>Comentário: ${a.x.e}</p></div>`).join('')}<script>print()<\/script>`);w.document.close()};renderHome();setInterval(()=>{if(!$('#quiz').classList.contains('hidden')){let s=Math.floor((Date.now()-started)/1000);$('#timer').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}},1000);
+
+/* PEDAGOGO_DEEP_LINKS */
+(()=>{
+  const p=new URLSearchParams(location.search);
+  const d=p.get('discipline'),t=p.get('topic');
+  if(d&&$('#discipline')){
+    const has=[...$('#discipline').options].some(o=>o.value===d);
+    if(has){$('#discipline').value=d;fillTopics()}
+  }
+  if(t&&$('#category')){
+    const has=[...$('#category').options].some(o=>o.value===t);
+    if(has)$('#category').value=t;
+  }
+  if(d||t)show('setup');
+})();
 
 /* UNIFIED_PWA_HOOKS */
 (()=>{
