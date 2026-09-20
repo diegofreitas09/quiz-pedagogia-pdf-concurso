@@ -581,7 +581,9 @@
   renderProgress();
   if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>{});
   const allowed=["home","read","maps","cards","quiz","planner","progress"];
-  const hashView=location.hash==="#cronograma"?"planner":location.hash==="#leitura"?"read":null;
+  const hashRaw=location.hash.replace("#","");
+  const hashAliases={cronograma:"planner",leitura:"read"};
+  const hashView=hashAliases[hashRaw]||(allowed.includes(hashRaw)?hashRaw:null);
   const params=new URLSearchParams(location.search);
   if(params.get("discipline")&&READ_DISCIPLINES.includes(params.get("discipline"))){
     readingDiscipline=params.get("discipline");
@@ -589,5 +591,9 @@
     readingTopic=params.get("topic")||"";
     state.readingTopic=readingTopic;
   }
-  go(hashView|| (allowed.includes(state.lastView)?state.lastView:"home"));
+  if(params.get("review")==="due"){
+    startDueReview();
+  }else{
+    go(hashView|| (allowed.includes(state.lastView)?state.lastView:"home"));
+  }
 })();
