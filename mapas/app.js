@@ -4,6 +4,8 @@
     return r.json();
   });
   const ICONS=["","🧠","🧩","⚖️","🧭","🎓","📊","🤝","✍️","🌐","🔬"];
+  const THEORY=window.PEDAGOGO_THEORY||[];
+  const READ_DISCIPLINES=["Conhecimentos Pedagógicos","Língua Portuguesa","Raciocínio Lógico"];
   const STORAGE_KEY="pdfStudyMapV1";
   const DAY=86400000;
   const MODULES=Array.from({length:10},(_,i)=>{
@@ -11,7 +13,7 @@
     const cards=CARDS.filter(c=>c.module===number);
     return {number,title:cards[0].category,icon:ICONS[number],cards};
   });
-  const defaults={mastery:{},quiz:{answered:0,correct:0},quizByModule:{},lastModule:1,lastCard:1,lastView:"home"};
+  const defaults={mastery:{},quiz:{answered:0,correct:0},quizByModule:{},lastModule:1,lastCard:1,lastView:"home",readingDiscipline:"Conhecimentos Pedagógicos",readingTopic:""};
   const el=id=>document.getElementById(id);
   const clone=o=>JSON.parse(JSON.stringify(o));
   let state;
@@ -20,6 +22,8 @@
     state={...defaults,...raw,mastery:{...(raw.mastery||{})},quiz:{...defaults.quiz,...(raw.quiz||{})},quizByModule:{...(raw.quizByModule||{})}};
   }catch{state=clone(defaults)}
   let activeModule=state.lastModule||1;
+  let readingDiscipline=state.readingDiscipline||"Conhecimentos Pedagógicos";
+  let readingTopic=state.readingTopic||"";
   let cardPool=[...CARDS];
   let cardIndex=Math.max(0,cardPool.findIndex(c=>c.id===(state.lastCard||1)));
   let quizSession=null;
@@ -84,6 +88,8 @@
     target.querySelectorAll("[data-module]").forEach(b=>b.onclick=()=>setModule(Number(b.dataset.module)));
   }
   function setModule(n){
+    readingDiscipline="Conhecimentos Pedagógicos";
+    state.readingDiscipline=readingDiscipline;
     activeModule=Math.min(10,Math.max(1,n));
     state.lastModule=activeModule;
     save();
@@ -116,19 +122,70 @@
       go("read");
     });
   }
+  function normRead(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim()}
+  function theoryTopics(d){return THEORY.filter(x=>x.discipline===d)}
+  function findTheory(d,t){
+    const list=theoryTopics(d);
+    if(!t)return list[0]||null;
+    const n=normRead(t);
+    return list.find(x=>normRead(x.title)===n||x.aliases?.some(a=>normRead(a)===n))
+      ||list.find(x=>x.aliases?.some(a=>n.includes(normRead(a))||normRead(a).includes(n)))
+      ||list.find(x=>n.includes(normRead(x.title))||normRead(x.title).includes(n))
+      ||list[0]||null;
+  }
+  function setupReadingControls(){
+    const ds=el("readDisciplineSelect"),ts=el("readTopicSelect");
+    if(!ds)return;
+    ds.innerHTML=READ_DISCIPLINES.map(d=>`<option value="${d}">${d}</option>`).join("");
+    ds.value=readingDiscipline;
+    const pedagogical=readingDiscipline==="Conhecimentos Pedagógicos";
+    el("readSelector")?.classList.toggle("hidden",!pedagogical);
+    el("readTopicLabel")?.classList.toggle("hidden",pedagogical);
+    if(!pedagogical){
+      const list=theoryTopics(readingDiscipline);
+      ts.innerHTML=list.map(x=>`<option value="${x.title}">${x.title}</option>`).join("");
+      const found=findTheory(readingDiscipline,readingTopic);
+      readingTopic=found?.title||list[0]?.title||"";
+      ts.value=readingTopic;
+    }
+  }
   function renderReading(){
-    const mod=MODULES[activeModule-1];
-    el("readIcon").textContent=mod.icon;
-    el("readModuleTitle").textContent=mod.title;
-    el("readModuleMeta").textContent=`8 tópicos essenciais • Cards ${String(mod.cards[0].id).padStart(2,"0")}–${String(mod.cards.at(-1).id).padStart(2,"0")}`;
-    el("readingContent").innerHTML=mod.cards.map((c,i)=>`
-      <details ${i===0?"open":""}>
-        <summary>${String(c.id).padStart(2,"0")} • ${c.question}</summary>
-        <div class="reading-body">
-          <p>${c.answer}</p>
-          <div class="trap"><strong>⚠ Pegadinha:</strong> ${c.trap}</div>
-        </div>
-      </details>`).join("");
+    setupReadingControls();
+    if(readingDiscipline==="Conhecimentos Pedagógicos"){
+      const mod=MODULES[activeModule-1];
+      el("readIcon").textContent=mod.icon;
+      el("readModuleTitle").textContent=mod.title;
+      el("readModuleMeta").textContent=`8 tópicos essenciais • Cards ${String(mod.cards[0].id).padStart(2,"0")}–${String(mod.cards.at(-1).id).padStart(2,"0")}`;
+      el("readingContent").innerHTML=mod.cards.map((c,i)=>`
+        <details ${i===0?"open":""}>
+          <summary>${String(c.id).padStart(2,"0")} • ${c.question}</summary>
+          <div class="reading-body">
+            <p>${c.answer}</p>
+            <div class="trap"><strong>⚠ Pegadinha:</strong> ${c.trap}</div>
+          </div>
+        </details>`).join("");
+      const btn=el("readQuizBtn");
+      if(btn)btn.onclick=()=>location.href="/?discipline="+encodeURIComponent("Conhecimentos Pedagógicos")+"&topic="+encodeURIComponent(mod.title);
+      return;
+    }
+    const item=findTheory(readingDiscipline,readingTopic);
+    if(!item){el("readingContent").innerHTML="<div class='panel'>Conteúdo teórico em preparação.</div>";return}
+    readingTopic=item.title;
+    state.readingDiscipline=readingDiscipline;state.readingTopic=readingTopic;save();
+    const icon=readingDiscipline==="Língua Portuguesa"?"📝":"🧮";
+    el("readIcon").textContent=icon;
+    el("readModuleTitle").textContent=item.title;
+    el("readModuleMeta").textContent=readingDiscipline+" • resumo direcionado para concursos";
+    el("readingContent").innerHTML=`
+      <article class="theory-card">
+        <p class="theory-intro">${item.intro}</p>
+      </article>
+      <details open><summary>📌 Pontos-chave</summary><div class="reading-body"><ul class="theory-list">${item.keyPoints.map(x=>`<li>${x}</li>`).join("")}</ul></div></details>
+      <details><summary>⚠ Pegadinhas de prova</summary><div class="reading-body"><ul class="theory-list traps-list">${item.traps.map(x=>`<li>${x}</li>`).join("")}</ul></div></details>
+      <details><summary>🎯 Como estudar este assunto</summary><div class="reading-body"><ol class="theory-list">${item.practice.map(x=>`<li>${x}</li>`).join("")}</ol></div></details>
+      <article class="theory-source"><span>Material-base do seu acervo</span><a href="${item.source}" target="_blank" rel="noopener">Abrir apostila original ↗</a></article>`;
+    const btn=el("readQuizBtn");
+    if(btn)btn.onclick=()=>location.href="/?discipline="+encodeURIComponent(readingDiscipline)+"&topic="+encodeURIComponent(item.title);
   }
   function nodePosition(i,total){
     const angle=-Math.PI/2+(Math.PI*2/total)*i;
@@ -508,6 +565,13 @@
   renderProgress();
   if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>{});
   const allowed=["home","read","maps","cards","quiz","planner","progress"];
-  const hashView=location.hash==="#cronograma"?"planner":null;
+  const hashView=location.hash==="#cronograma"?"planner":location.hash==="#leitura"?"read":null;
+  const params=new URLSearchParams(location.search);
+  if(params.get("discipline")&&READ_DISCIPLINES.includes(params.get("discipline"))){
+    readingDiscipline=params.get("discipline");
+    state.readingDiscipline=readingDiscipline;
+    readingTopic=params.get("topic")||"";
+    state.readingTopic=readingTopic;
+  }
   go(hashView|| (allowed.includes(state.lastView)?state.lastView:"home"));
 })();
